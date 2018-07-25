@@ -4,9 +4,9 @@
 
 ## Translations
 
-- [中文文档](README.md)
+- [English Document](README-en.md)
 
-## Rely
+## 依赖
 
 ```
  "php-64bit": ">=7.0",
@@ -22,45 +22,45 @@
 * ext-secp256k1: [https://github.com/Bit-Wasp/secp256k1-php](https://github.com/Bit-Wasp/secp256k1-php)
 * ext-keccak: [https://github.com/archwisp/php-keccak-hash](https://github.com/archwisp/php-keccak-hash)
 
-### Install
+### 安装
 
 * composer require ...
 
-### Quick Start
-* Note: the API configuration needs to be initialized before using the API method
+### 快速使用
+* 注意:使用API方法之前需初始化API配置
 
-**No signing is required**
+**不需要进行签名操作**
 ```php
-// If you don't sign
+// 如果不进行签名操作
 \Primas\Primas::init([
 
     /*
-     * (string|UriInterface) A base URI is used to merge to a related URI, either a string or an instance of a UriInterface, and when the associated URI is provided, it is merged to the base URI
+     * (string|UriInterface) 基URI用来合并到相关URI，可以是一个字符串或者UriInterface的实例，当提供了相关uri，将合并到基URI
      */
     "base_uri" => "https://staging.primas.io",
     /*
-     * Verify the SSL certificate behavior when requested.
-     * Set true to enable SSL certificate validation, and use the operating system-provided CA package by default.
-     * Set false to disable certificate validation (this is not safe!) .
-     * Set to a string to enable validation and use that string as the path to the custom certificate CA package.
+     * 请求时验证SSL证书行为。
+     * 设置成 true 启用SSL证书验证，默认使用操作系统提供的CA包。
+     * 设置成 false 禁用证书验证(这是不安全的！)。
+     * 设置成字符串启用验证，并使用该字符串作为自定义证书CA包的路径。
      * @var bool|string
      * @default true
      */
     "verify" => true
 ]);
 ```
-**Signing is required**
+**需要进行签名操作**
 ```php
 /*
- * $privateKey Object instantiated for \Primas Types\Byte
+ * $privateKey 为 \Primas\Types\Byte实例化的对象
  */
 
 \Primas\Primas::init($options, $privateKey);
 
-// How to get $privateKey ?
-// 1. Get it through the keystore
+// 如何获取 $privateKey ?
+// 1. 通过keystore获取
 /*
- * The password needs to correspond to the keystore, otherwise an exception will be thrown
+ * 密码需和keystore对应,否则会抛异常
  */
 $keyStore = '{"version":3,"id":"e1a1909a-7a38-44aa-af04-61cd3a342008","address":"d75407ad8cabeeebfed78c4f3794208b3339fbf4","Crypto":{"ciphertext":"bcf8d3037432f731d3dbb0fde1b32be47faa202936c303ece7f53890a79f49d2","cipherparams":{"iv":"e28edaeff90032f24481c6117e593e01"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"7d7c824367d7f6607128c721d6e1729abf706a3165384bbfc2aae80510ec0ce2","n":1024,"r":8,"p":1},"mac":"52f98caaa4959448ec612e4314146b6a2d5022d5394b77e31f5a79780079c22f"}}';
 $password = "Test123:::";
@@ -69,12 +69,12 @@ $privateKey = $keyStore->getPrivateKey();
 $publicKey = $keyStore->getPublicKey();
 $address = $keyStore->getAddress();
 
-// 2. Custom private key
-// A string of 64 length in hexadecimal
+// 2. 自定义私钥
+// 需为16进制64长度的字符串
 $hex = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789";
 $privateKey = \Primas\Types\Byte::initWithHex($hex);
 
-// Initialize the API configuration
+// 初始化API配置
 \Primas\Primas::init([
     "base_uri" => "https://staging.primas.io",
     "verify" => true

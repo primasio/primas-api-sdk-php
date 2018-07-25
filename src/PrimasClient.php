@@ -42,7 +42,7 @@ abstract class PrimasClient
     {
         $metadata = self::ksort($data);
         $metadataJson = json_encode($metadata, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP);
-        return Keccak::hash($metadataJson, 256, true);
+        return Byte::initWithHex(Keccak::hash($metadataJson, 256));
     }
 
     /**
@@ -59,4 +59,5 @@ abstract class PrimasClient
         }
         return $arr;
     }
+
 }

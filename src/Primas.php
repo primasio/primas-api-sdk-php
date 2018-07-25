@@ -26,6 +26,13 @@ class Primas
     public static $verify;
 
     /**
+     * primas api request timeout
+     *
+     * @var mixed
+     */
+    public static $timeout;
+
+    /**
      * @var Byte
      */
     private static $privateKey;
@@ -46,6 +53,7 @@ class Primas
     {
         self::$baseUri = $options["base_uri"] ?? null;
         self::$verify = $options["verify"] ?? true;
+        self::$timeout = $options["timeout"] ?? 0;
         self::$privateKey = $privateKey;
     }
 

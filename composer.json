@@ -1,0 +1,37 @@
+{
+  "name": "primas/node",
+  "description": "Ethereum secp256k1 library in PHP",
+  "keywords": [
+    "bitwasp",
+    "bitcoin",
+    "php",
+    "secp256k1",
+    "ecc",
+    "ecdsa",
+    "cryptocurrency",
+    "node",
+    "primas"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "xiongchao",
+      "email": "xiongchao@yuanben.org"
+    }
+  ],
+  "require": {
+    "php-64bit": ">=7.0",
+    "ext-gmp": "*",
+    "ext-scrypt": "~1.4",
+    "ext-secp256k1": ">=0.1.0",
+    "ext-keccak": "~0.2",
+    "guzzlehttp/guzzle": "~6.0",
+    "bitwasp/buffertools": "^0.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Primas\\": "src/"
+    }
+  }
+}

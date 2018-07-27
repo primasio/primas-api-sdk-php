@@ -23,7 +23,7 @@ class Account extends PrimasClient
      */
     public function getAccounts(string $account_id)
     {
-        $response = $this->client->get("/v3/accounts/$account_id");
+        $response = $this->client->get("/v3/accounts/$account_id/metadata");
         $content = $response->getBody()->getContents();
         $data = json_decode($content, true);
         return $data;
@@ -37,7 +37,7 @@ class Account extends PrimasClient
      */
     public function getSubAccounts(string $account_id, string $subId)
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId");
+        $response = $this->client->get("/v3/accounts/$account_id/$subId/metadata");
         $content = $response->getBody()->getContents();
         $data = json_decode($content, true);
         return $data;

@@ -77,7 +77,7 @@ $token->getPreLockTokenList(string $account_id,array $parameters = []);
 
 $token=new \Primas\Token();
 
-$token->createPreLockTokens(string $account_id,array $parameters);
+$token->createPreLockTokens(string $account_id,array $transaction);
 
 ```
 

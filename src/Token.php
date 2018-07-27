@@ -57,11 +57,12 @@ class Token extends PrimasClient
     public function createIncentivesWithdrawal(string $account_id, array $parameters)
     {
         $filters = [];
+        $json=$this->generateData($parameters, $filters);
         $response = $this->client->post("/v3/accounts/$account_id/tokens/incentives/withdrawal", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
-            'body' => $this->generateData($parameters, $filters),
+            'body' => $json,
         ]);
         $content = $response->getBody()->getContents();
         $data = json_decode($content, true);
@@ -76,14 +77,14 @@ class Token extends PrimasClient
         return $data;
     }
 
-    public function createPreLockTokens(string $account_id, array $parameters)
+    public function createPreLockTokens(string $account_id, array $transaction)
     {
         $response = $this->client->post("/v3/accounts/$account_id/tokens/pre_locks", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'body' => json_encode([
-                "transaction" => $parameters
+                "transaction" => $transaction
             ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
         ]);
         $content = $response->getBody()->getContents();

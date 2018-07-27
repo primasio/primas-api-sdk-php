@@ -34,7 +34,7 @@ class Signature
 
         unset($context, $signature);
 
-        return Byte::init($serialized.Uint::init($recoveryId)->getBinary());
+        return Byte::init($serialized . Uint::init($recoveryId)->getBinary());
     }
 
     /**

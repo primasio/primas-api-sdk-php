@@ -37,6 +37,7 @@ abstract class PrimasClient
     /**
      * @param array $data
      * @return Byte
+     * @throws \Exception
      */
     private function generateMetadata(array $data)
     {

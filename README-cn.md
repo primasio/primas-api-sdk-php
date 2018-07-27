@@ -20,7 +20,7 @@
 
 * ext-scrypt: [https://github.com/DomBlack/php-scrypt](https://github.com/DomBlack/php-scrypt)
 * ext-secp256k1: [https://github.com/Bit-Wasp/secp256k1-php](https://github.com/Bit-Wasp/secp256k1-php)
-* ext-keccak: [https://github.com/archwisp/php-keccak-hash](https://github.com/archwisp/php-keccak-hash)
+* ext-keccak: [https://github.com/EricYChu/php-keccak-hash](https://github.com/EricYChu/php-keccak-hash)
 
 ### 安装
 

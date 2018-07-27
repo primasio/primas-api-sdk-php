@@ -16,11 +16,11 @@
 
 * ext-scrypt: [https://github.com/DomBlack/php-scrypt](https://github.com/DomBlack/php-scrypt)
 * ext-secp256k1: [https://github.com/Bit-Wasp/secp256k1-php](https://github.com/Bit-Wasp/secp256k1-php)
-* ext-keccak: [https://github.com/archwisp/php-keccak-hash](https://github.com/archwisp/php-keccak-hash)
+* ext-keccak: [https://github.com/EricYChu/php-keccak-hash](https://github.com/EricYChu/php-keccak-hash)
 
 ### Install
 
-* composer require ...
+* composer require primas/node
 
 ### Quick Start
 * Note: the API configuration needs to be initialized before using the API method
@@ -42,7 +42,11 @@
      * @var bool|string
      * @default true
      */
-    "verify" => true
+    "verify" => true,
+    /*
+     * request time,default is 0,mean always waiting
+     */
+    'timeout'=> 0 
 ]);
 ```
 **Signing is required**

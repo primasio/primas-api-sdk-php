@@ -19,9 +19,8 @@ class System extends PrimasClient
      */
     public function getSystemParameters(array $parameters)
     {
-        $response = $this->client->get("/v3/system" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/system" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 

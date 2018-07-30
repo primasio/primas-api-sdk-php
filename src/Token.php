@@ -24,33 +24,29 @@ class Token extends PrimasClient
 
     public function getAccountTokensData(string $account_id)
     {
-        $response = $this->client->get("/v3/accounts/$account_id/tokens");
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/tokens");
+
         return $data;
     }
 
     public function getIncentivesList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/tokens/incentives" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/tokens/incentives" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getIncentivesStatisticsList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/tokens/incentives/stats" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/tokens/incentives/stats" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getIncentivesWithdrawalList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/tokens/incentives/withdrawal" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/tokens/incentives/withdrawal" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
@@ -58,28 +54,26 @@ class Token extends PrimasClient
     {
         $filters = [];
         $json=$this->generateData($parameters, $filters);
-        $response = $this->client->post("/v3/accounts/$account_id/tokens/incentives/withdrawal", [
+        $data = $this->post("/v3/accounts/$account_id/tokens/incentives/withdrawal", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'body' => $json,
         ]);
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+
         return $data;
     }
 
     public function getPreLockTokenList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/tokens/pre_locks" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/tokens/pre_locks" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function createPreLockTokens(string $account_id, array $transaction)
     {
-        $response = $this->client->post("/v3/accounts/$account_id/tokens/pre_locks", [
+        $data = $this->post("/v3/accounts/$account_id/tokens/pre_locks", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -87,8 +81,7 @@ class Token extends PrimasClient
                 "transaction" => $transaction
             ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
         ]);
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+
         return $data;
     }
 
@@ -99,9 +92,8 @@ class Token extends PrimasClient
 
     public function getLockTokensList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/tokens/locks" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/tokens/locks" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 

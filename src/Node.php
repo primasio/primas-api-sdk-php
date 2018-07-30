@@ -19,9 +19,8 @@ class Node extends PrimasClient
      */
     public function getNodeLists(array $parameters = [])
     {
-        $response = $this->client->get("/v3/nodes" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/nodes" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 

@@ -19,9 +19,8 @@ class Query extends PrimasClient
      */
     public function query(array $parameters = [])
     {
-        $response = $this->client->get("/v3/query" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/query" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 

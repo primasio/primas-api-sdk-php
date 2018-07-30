@@ -20,25 +20,22 @@ class ContentInteraction extends PrimasClient
 
     public function getShare(string $id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/shares/$id" . "?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/shares/$id" . "?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSharesOfGroupShare(string $id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/shares/$id/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/shares/$id/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getShareReports(string $id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/shares/$id/reports?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/shares/$id/reports?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
@@ -50,22 +47,20 @@ class ContentInteraction extends PrimasClient
             "tag" => self::REPORT_TAG,
             "status" => self::STATUS
         ];
-        $response = $this->client->post("/v3/shares/$id/reports", [
+        $data = $this->post("/v3/shares/$id/reports", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'body' => $this->generateData($parameters, $filters),
         ]);
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+
         return $data;
     }
 
     public function getLikesOfGroupShare(string $id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/shares/$id/likes?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/shares/$id/likes?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
@@ -77,14 +72,13 @@ class ContentInteraction extends PrimasClient
             "tag" => self::LIKE_TAG,
             "status" => self::STATUS
         ];
-        $response = $this->client->post("/v3/shares/$id/likes", [
+        $data = $this->post("/v3/shares/$id/likes", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'body' => $this->generateData($parameters,$filters),
         ]);
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+
         return $data;
     }
 
@@ -95,17 +89,15 @@ class ContentInteraction extends PrimasClient
 
     public function getReplyCommentsOfComments(string $id)
     {
-        $response = $this->client->get("/v3/comments/$id/comments");
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/comments/$id/comments");
+
         return $data;
     }
 
     public function getCommentsOfGroupShare(string $id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/shares/$id/comments?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/shares/$id/comments?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
@@ -117,14 +109,13 @@ class ContentInteraction extends PrimasClient
             "tag" => self::COMMENT_TAG,
             "status" => self::STATUS
         ];
-        $response = $this->client->post("/v3/shares/$id/comments", [
+        $data = $this->post("/v3/shares/$id/comments", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'body' => $this->generateData($parameters,$filters),
         ]);
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+
         return $data;
     }
 

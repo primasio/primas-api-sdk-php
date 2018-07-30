@@ -23,9 +23,8 @@ class Account extends PrimasClient
      */
     public function getAccounts(string $account_id)
     {
-        $response = $this->client->get("/v3/accounts/$account_id/metadata");
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/metadata");
+
         return $data;
     }
 
@@ -37,9 +36,8 @@ class Account extends PrimasClient
      */
     public function getSubAccounts(string $account_id, string $subId)
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/metadata");
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/metadata");
+
         return $data;
     }
 
@@ -52,14 +50,13 @@ class Account extends PrimasClient
      */
     public function createAccount(array $parameters)
     {
-        $response = $this->client->post("/v3/accounts", [
+        $data = $this->post("/v3/accounts", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'body' => $this->generateData($parameters),
         ]);
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+
         return $data;
     }
 
@@ -70,193 +67,169 @@ class Account extends PrimasClient
 
     public function getAccountCreditsList(string $account_id)
     {
-        $response = $this->client->get("/v3/accounts/$account_id/credits");
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/credits");
+
         return $data;
     }
 
     public function getSubAccountCreditsList(string $account_id, string $subId)
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/credits");
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/credits");
+
         return $data;
     }
 
     public function getAccountContentList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/content?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/content?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountContentList(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/content?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/content?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountGroupList(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/groups?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/groups?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountGroupList(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/groups?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/groups?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountShares(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountShares(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountSharesByGroup(string $account_id, string $groupId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/groups/$groupId/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/groups/$groupId/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountSharesByGroup(string $account_id, string $subId, string $groupId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/groups/$groupId/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/groups/$groupId/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountLikes(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/likes?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/likes?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountLikes(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/likes?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/likes?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountComments(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/comments?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/comments?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountComments(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/comments?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/comments?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountGroupApplications(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/applications/groups?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/applications/groups?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountGroupApplications(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/applications/groups?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/applications/groups?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountShareApplications(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/applications/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/applications/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountShareApplications(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/applications/shares?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/applications/shares?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountReports(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/reports?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/reports?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountReports(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/reports?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/reports?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountNotifications(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/notifications?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/notifications?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountNotifications(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/notifications?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/notifications?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getAccountAvatarMetadata(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/avatar?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/avatar?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
     public function getSubAccountAvatarMetadata(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/avatar?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/avatar?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
@@ -269,9 +242,8 @@ class Account extends PrimasClient
      */
     public function getAccountAvatarRaw(string $account_id, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/avatar/raw?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/avatar/raw?" . $this->buildQuery($parameters));
+
         return $data;
     }
 
@@ -285,9 +257,8 @@ class Account extends PrimasClient
      */
     public function getSubAccountAvatarRaw(string $account_id, string $subId, array $parameters = [])
     {
-        $response = $this->client->get("/v3/accounts/$account_id/$subId/avatar/raw?" . $this->buildQuery($parameters));
-        $content = $response->getBody()->getContents();
-        $data = json_decode($content, true);
+        $data = $this->get("/v3/accounts/$account_id/$subId/avatar/raw?" . $this->buildQuery($parameters));
+
         return $data;
     }
 

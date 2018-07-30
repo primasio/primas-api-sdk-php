@@ -11,11 +11,13 @@ $res3 = $token->getIncentivesStatisticsList($account_id);
 $res4 = $token->getIncentivesWithdrawalList($account_id);
 $res5 = $token->getLockTokensList($account_id);
 $res6 = $token->getPreLockTokenList($account_id);
+var_dump($res, $res2, $res3, $res4, $res5, $res6);
+exit;
 $parameters = [
     "node_id" => "58f47077984e5daa4d2ea46f2e689177a1655c1321544e69f851530a789e9fd7",
-    "amount" => 123,
+    "amount" => "3219223372036854775807",   // php not support bigint type use string replace
     "created" => 1532525161,
-    "node_fee" => 123
+    "node_fee" => "1239223372036854775807"  // php not support bigint type use string replace
 ];
 $res7 = $token->createIncentivesWithdrawal($account_id, $parameters);
 $transaction = [

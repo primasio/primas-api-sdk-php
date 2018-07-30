@@ -20,21 +20,21 @@ class ContentInteraction extends PrimasClient
 
     public function getShare(string $id, array $parameters = [])
     {
-        $data = $this->get("/v3/shares/$id" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("shares/$id" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
 
     public function getSharesOfGroupShare(string $id, array $parameters = [])
     {
-        $data = $this->get("/v3/shares/$id/shares?" . $this->buildQuery($parameters));
+        $data = $this->get("shares/$id/shares?" . $this->buildQuery($parameters));
 
         return $data;
     }
 
     public function getShareReports(string $id, array $parameters = [])
     {
-        $data = $this->get("/v3/shares/$id/reports?" . $this->buildQuery($parameters));
+        $data = $this->get("shares/$id/reports?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -47,7 +47,7 @@ class ContentInteraction extends PrimasClient
             "tag" => self::REPORT_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/shares/$id/reports", [
+        $data = $this->post("shares/$id/reports", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -59,7 +59,7 @@ class ContentInteraction extends PrimasClient
 
     public function getLikesOfGroupShare(string $id, array $parameters = [])
     {
-        $data = $this->get("/v3/shares/$id/likes?" . $this->buildQuery($parameters));
+        $data = $this->get("shares/$id/likes?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -72,7 +72,7 @@ class ContentInteraction extends PrimasClient
             "tag" => self::LIKE_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/shares/$id/likes", [
+        $data = $this->post("shares/$id/likes", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -89,14 +89,14 @@ class ContentInteraction extends PrimasClient
 
     public function getReplyCommentsOfComments(string $id)
     {
-        $data = $this->get("/v3/comments/$id/comments");
+        $data = $this->get("comments/$id/comments");
 
         return $data;
     }
 
     public function getCommentsOfGroupShare(string $id, array $parameters = [])
     {
-        $data = $this->get("/v3/shares/$id/comments?" . $this->buildQuery($parameters));
+        $data = $this->get("shares/$id/comments?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -109,7 +109,7 @@ class ContentInteraction extends PrimasClient
             "tag" => self::COMMENT_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/shares/$id/comments", [
+        $data = $this->post("shares/$id/comments", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],

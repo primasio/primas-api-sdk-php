@@ -19,7 +19,7 @@ class System extends PrimasClient
      */
     public function getSystemParameters(array $parameters)
     {
-        $data = $this->get("/v3/system" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("system" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }

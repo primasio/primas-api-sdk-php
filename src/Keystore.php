@@ -1,4 +1,5 @@
 <?php
+
 namespace Primas;
 
 use Primas\Crypto\Keccak;
@@ -12,23 +13,23 @@ class Keystore
     /**
      * @var Byte
      */
-    private $privateKey;
+    private static $privateKey;
     /**
      * @var Byte
      */
-    private $publicKey;
+    private static $publicKey;
 
     /**
      * @var Address
      */
-    private $address;
+    private static $address;
 
     /**
      * @param string $data
      * @param string $passphrase
      * @throws Exception
      */
-    public function __construct(string $data, string $passphrase)
+    public static function init(string $data, string $passphrase)
     {
         try {
             $data = json_decode($data)->Crypto;
@@ -37,7 +38,7 @@ class Keystore
         }
         switch ($data->kdf) {
             case 'pbkdf2':
-                $derivedKey = $this->derivePbkdf2EncryptedKey(
+                $derivedKey = self::derivePbkdf2EncryptedKey(
                     $passphrase,
                     $data->kdfparams->prf,
                     $data->kdfparams->salt,
@@ -46,7 +47,7 @@ class Keystore
                 );
                 break;
             case 'scrypt':
-                $derivedKey = $this->deriveScryptEncryptedKey(
+                $derivedKey = self::deriveScryptEncryptedKey(
                     $passphrase,
                     $data->kdfparams->salt,
                     $data->kdfparams->n,
@@ -58,13 +59,14 @@ class Keystore
             default:
                 throw new Exception(sprintf('Unsupported KDF function "%s".', $data->kdf));
         }
-        if (! $this->validateDerivedKey($derivedKey, $data->ciphertext, $data->mac)) {
+        if (!self::validateDerivedKey($derivedKey, $data->ciphertext, $data->mac)) {
             throw new Exception('Passphrase is invalid.');
         }
-        $this->privateKey = $this->decryptPrivateKey($data->ciphertext, $derivedKey, $data->cipher, $data->cipherparams->iv);
-        $this->publicKey = $this->createPublicKey($this->privateKey);
-        $this->address = $this->parseAddress($this->publicKey);
+        self::$privateKey = self::decryptPrivateKey($data->ciphertext, $derivedKey, $data->cipher, $data->cipherparams->iv);
+        self::$publicKey = self::createPublicKey(self::$privateKey);
+        self::$address = self::parseAddress(self::$publicKey);
     }
+
     /**
      * @param string $passphrase
      * @param string $prf
@@ -79,8 +81,9 @@ class Keystore
         if ($prf != 'hmac-sha256') {
             throw new Exception(sprintf('Unsupported PRF function "%s".', $prf));
         }
-        return hash_pbkdf2('sha256', $passphrase, pack('H*', $salt), $c,  $dklen * 2);
+        return hash_pbkdf2('sha256', $passphrase, pack('H*', $salt), $c, $dklen * 2);
     }
+
     /**
      * @param string $passphrase
      * @param string $salt
@@ -94,6 +97,7 @@ class Keystore
     {
         return scrypt($passphrase, pack('H*', $salt), $n, $r, $p, $dklen);
     }
+
     /**
      * @param string $key
      * @param string $ciphertext
@@ -103,8 +107,9 @@ class Keystore
      */
     private function validateDerivedKey(string $key, string $ciphertext, string $mac)
     {
-        return Keccak::hash(pack('H*', substr($key, 32, 32).$ciphertext)) === $mac;
+        return Keccak::hash(pack('H*', substr($key, 32, 32) . $ciphertext)) === $mac;
     }
+
     /**
      * @param string $ciphertext
      * @param string $key
@@ -115,9 +120,10 @@ class Keystore
      */
     private function decryptPrivateKey(string $ciphertext, string $key, string $cipher, string $iv): Byte
     {
-        $output = openssl_decrypt(pack('H*', $ciphertext), $cipher, pack('H*', substr($key, 0, 32)),OPENSSL_RAW_DATA, pack('H*', $iv));
+        $output = openssl_decrypt(pack('H*', $ciphertext), $cipher, pack('H*', substr($key, 0, 32)), OPENSSL_RAW_DATA, pack('H*', $iv));
         return Byte::init($output);
     }
+
     /**
      * @param Byte $privateKey
      * @return Byte
@@ -140,6 +146,7 @@ class Keystore
         }
         throw new Exception('secp256k1_pubkey_create: secret key was invalid');
     }
+
     /**
      * @param Byte $publicKey
      * @return Address
@@ -150,27 +157,29 @@ class Keystore
         $hash = Keccak::hash($publicKey->getBinary());
         return Address::init(substr($hash, -40, 40));
     }
+
     /**
      * @return Byte
      */
-    public function getPrivateKey(): Byte
+    public static function getPrivateKey(): Byte
     {
-        return $this->privateKey;
+        return self::$privateKey;
     }
+
     /**
      * @return Address
      */
-    public function getAddress(): Address
+    public static function getAddress(): Address
     {
-        return $this->address;
+        return self::$address;
     }
 
     /**
      * @return Byte
      */
-    public function getPublicKey(): Byte
+    public static function getPublicKey(): Byte
     {
-        return $this->publicKey;
+        return self::$publicKey;
     }
 
 }

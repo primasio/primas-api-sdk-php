@@ -24,14 +24,14 @@ abstract class PrimasClient
     }
 
     /**
-     * @param $name
+     * @param $function
      * @param $arguments
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call($function, $arguments)
     {
-        $response = $this->client->$name($arguments);
-        $content = $response->getBoby()->getContent();
+        $response = $this->client->$function(...$arguments);
+        $content = $response->getBody()->getContents();
         return json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
     }
 
@@ -42,7 +42,8 @@ abstract class PrimasClient
      */
     protected function completeMetadata(array $metadata)
     {
-        $signature = Signature::sign($this->generateMetadata($metadata), Primas::getPrivateKey());
+        $metadata["address"] = (string)Keystore::getAddress();
+        $signature = Signature::sign($this->generateMetadata($metadata), Keystore::getPrivateKey());
         $metadata["signature"] = $signature->getHex();
         return self::json_encode($metadata);
     }
@@ -107,12 +108,14 @@ abstract class PrimasClient
                 if (!$is_list)
                     $str = '"' . $key . '":';
                 //Custom handling for multiple data types
-                if (is_int($value) || is_float($value) || (is_numeric($value) && is_string($value) && gmp_cmp(gmp_abs($value), "9223372036854775807") > 0)) {
-                    $str .= $value; // Numbers
-                } elseif ($value === false) {
+                if ($value === false) {
                     $str .= 'false'; //The booleans
                 } elseif ($value === true) {
                     $str .= 'true'; //The booleans
+                } elseif (is_int($value) || is_float($value)) {
+                    $str .= $value; // Numbers
+                } elseif (is_numeric($value) && ctype_digit($value) && gmp_cmp(gmp_abs($value), PHP_INT_MAX) > 0) {
+                    $str .= $value; // Big Numbers
                 } else {
                     $str .= '"' . addcslashes($value, "\\\"\n\r\t/") . '"'; //All other things
                 }

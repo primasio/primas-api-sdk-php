@@ -29,7 +29,7 @@
 ### 快速使用
 * 注意:使用API方法之前需初始化API配置
 
-**不需要进行签名操作**
+**请求配置初始化**
 ```php
 // 如果不进行签名操作
 \Primas\Primas::init([
@@ -46,16 +46,18 @@
      * @var bool|string
      * @default true
      */
-    "verify" => true
+    "verify" => true,
+    /*
+     * request time,default is 0,mean always waiting
+     */
+    'timeout'=> 0 
 ]);
 ```
-**需要进行签名操作**
+**签名初始化**
 ```php
 /*
  * $privateKey 为 \Primas\Types\Byte实例化的对象
  */
-
-\Primas\Primas::init($options, $privateKey);
 
 // 如何获取 $privateKey ?
 // 1. 通过keystore获取
@@ -64,21 +66,11 @@
  */
 $keyStore = '{"version":3,"id":"e1a1909a-7a38-44aa-af04-61cd3a342008","address":"d75407ad8cabeeebfed78c4f3794208b3339fbf4","Crypto":{"ciphertext":"bcf8d3037432f731d3dbb0fde1b32be47faa202936c303ece7f53890a79f49d2","cipherparams":{"iv":"e28edaeff90032f24481c6117e593e01"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"7d7c824367d7f6607128c721d6e1729abf706a3165384bbfc2aae80510ec0ce2","n":1024,"r":8,"p":1},"mac":"52f98caaa4959448ec612e4314146b6a2d5022d5394b77e31f5a79780079c22f"}}';
 $password = "Test123:::";
-$keyStore = new \Primas\Keystore($keyStore, $password);
-$privateKey = $keyStore->getPrivateKey();
-$publicKey = $keyStore->getPublicKey();
-$address = $keyStore->getAddress();
+$keyStore = \Primas\Keystore::init($keyStore, $password);
+$privateKey = \Primas\Keystore::getPrivateKey();
+$publicKey =\Primas\Keystore::getPublicKey();
+$address = \Primas\Keystore::getAddress();
 
-// 2. 自定义私钥
-// 需为16进制64长度的字符串
-$hex = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789";
-$privateKey = \Primas\Types\Byte::initWithHex($hex);
-
-// 初始化API配置
-\Primas\Primas::init([
-    "base_uri" => "https://staging.primas.io",
-    "verify" => true
-], $privateKey);
 ```
 
 ### API List

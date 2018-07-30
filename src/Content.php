@@ -17,14 +17,14 @@ class Content extends PrimasClient
 
     public function getContent(string $id)
     {
-        $data = $this->get("/v3/content/$id");
+        $data = $this->get("content/$id");
 
         return $data;
     }
 
     public function getRawContent(string $id)
     {
-        $data = $this->get("/v3/content/$id/raw");
+        $data = $this->get("content/$id/raw");
 
         return $data;
     }
@@ -36,7 +36,7 @@ class Content extends PrimasClient
             "type" => self::TYPE,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/content", [
+        $data = $this->post("content", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],

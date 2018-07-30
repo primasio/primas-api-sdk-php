@@ -20,7 +20,7 @@ class TimeLine extends PrimasClient
      */
     public function getAccountTimeline(string $account_id, array $parameters = [])
     {
-        $data = $this->get("/v3/accounts/$account_id/timeline" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("accounts/$account_id/timeline" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }

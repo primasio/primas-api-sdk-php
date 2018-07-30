@@ -24,7 +24,7 @@ class Group extends PrimasClient
 
     public function getGroupMetadata(string $group_id, array $parameters = [])
     {
-        $data = $this->get("/v3/groups/$group_id" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("groups/$group_id" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -37,7 +37,7 @@ class Group extends PrimasClient
             "tag" => self::CREATE_GROUP_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/groups", [
+        $data = $this->post("groups", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -59,7 +59,7 @@ class Group extends PrimasClient
 
     public function getGroupMembers(string $group_id, array $parameters = [])
     {
-        $data = $this->get("/v3/groups/$group_id/members" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("groups/$group_id/members" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -72,7 +72,7 @@ class Group extends PrimasClient
             "tag" => self::JOIN_GROUP_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/groups/$group_id/members", [
+        $data = $this->post("groups/$group_id/members", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -94,7 +94,7 @@ class Group extends PrimasClient
 
     public function getGroupMemberWhiteLists(string $group_id, array $parameters = [])
     {
-        $data = $this->get("/v3/groups/$group_id/members/whitelist" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("groups/$group_id/members/whitelist" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -107,7 +107,7 @@ class Group extends PrimasClient
             "tag" => self::WHITE_GROUP_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/groups/$group_id/members/whitelist", [
+        $data = $this->post("groups/$group_id/members/whitelist", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -129,7 +129,7 @@ class Group extends PrimasClient
 
     public function getGroupShares(string $group_id, array $parameters = [])
     {
-        $data = $this->get("/v3/groups/$group_id/shares" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("groups/$group_id/shares" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -142,7 +142,7 @@ class Group extends PrimasClient
             "tag" => self::SHARE_GROUP_TAG,
             "status" => self::STATUS
         ];
-        $data = $this->post("/v3/groups/$group_id/shares", [
+        $data = $this->post("groups/$group_id/shares", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -164,14 +164,14 @@ class Group extends PrimasClient
 
     public function getGroupAvatarMetadata(string $group_id)
     {
-        $data = $this->get("/v3/groups/$group_id/avatar");
+        $data = $this->get("groups/$group_id/avatar");
 
         return $data;
     }
 
     public function getGroupAvatarRawImage(string $group_id)
     {
-        $data = $this->get("/v3/groups/$group_id/avatar/raw");
+        $data = $this->get("groups/$group_id/avatar/raw");
 
         return $data;
     }

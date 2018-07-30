@@ -4,36 +4,48 @@ require_once "init.php";
 
 // create
 $account = new \Primas\Account();
+$account_id = "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3";
+
 $parameters = [
     "name" => "Test:::123",
     "abstract" => "first test",
-    "created" => time()
+    "created" => 1532941632,
+    "creator" => [
+        "account_id" => $account_id,
+        "sub_account_id" => "testsubaccount"
+    ]
 ];
 $res = $account->createAccount($parameters);
+
+var_dump($res);
+
 // 结果
 /*
  array(3) {
-    ["result_code"]=>
+  ["result_code"]=>
   int(0)
   ["result_msg"]=>
   string(7) "success"
-    ["data"]=>
+  ["data"]=>
   array(2) {
-        ["id"]=>
-    string(64) "9afd45476bf50ac4034ee14f1b043ee1c480e3d7616ffdec108cec79116274b5"
-        ["dna"]=>
-    string(64) "d834cb6c5a5837eabb64a240564d9c52efefecf4560091788df6a2e6dec9a9fc"
+    ["id"]=>
+    string(64) "e19aa9a8cdc217c345925b7e824baea0ef6dab0e11117dfd2746be469b412724"
+    ["dna"]=>
+    string(64) "4659b4848c8e9e3ec60c94ded2cc58a35419411f58ff27dc51f116bb05577eb9"
   }
 }
 */
 
-$account_id = $res["data"]["id"];
-$account_dna = $res["data"]["dna"];
+$account_dna = "4659b4848c8e9e3ec60c94ded2cc58a35419411f58ff27dc51f116bb05577eb9";
+$subAccountId = "testsubaccount";
 
 // get
 
-$accountData=$account->getAccounts($account_id);
+$accountData = $account->getAccounts($account_id);
 var_dump($accountData);
 
-$accountCreditList=$account->getAccountCreditsList($account_id);
+$subAccountData = $account->getSubAccounts($account_id, $subAccountId);
+var_dump($subAccountData);
+
+$accountCreditList = $account->getAccountCreditsList($account_id);
 var_dump($accountCreditList);

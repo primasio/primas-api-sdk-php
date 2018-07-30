@@ -24,28 +24,28 @@ class Token extends PrimasClient
 
     public function getAccountTokensData(string $account_id)
     {
-        $data = $this->get("/v3/accounts/$account_id/tokens");
+        $data = $this->get("accounts/$account_id/tokens");
 
         return $data;
     }
 
     public function getIncentivesList(string $account_id, array $parameters = [])
     {
-        $data = $this->get("/v3/accounts/$account_id/tokens/incentives" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("accounts/$account_id/tokens/incentives" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
 
     public function getIncentivesStatisticsList(string $account_id, array $parameters = [])
     {
-        $data = $this->get("/v3/accounts/$account_id/tokens/incentives/stats" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("accounts/$account_id/tokens/incentives/stats" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
 
     public function getIncentivesWithdrawalList(string $account_id, array $parameters = [])
     {
-        $data = $this->get("/v3/accounts/$account_id/tokens/incentives/withdrawal" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("accounts/$account_id/tokens/incentives/withdrawal" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -54,7 +54,7 @@ class Token extends PrimasClient
     {
         $filters = [];
         $json=$this->generateData($parameters, $filters);
-        $data = $this->post("/v3/accounts/$account_id/tokens/incentives/withdrawal", [
+        $data = $this->post("accounts/$account_id/tokens/incentives/withdrawal", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -66,14 +66,14 @@ class Token extends PrimasClient
 
     public function getPreLockTokenList(string $account_id, array $parameters = [])
     {
-        $data = $this->get("/v3/accounts/$account_id/tokens/pre_locks" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("accounts/$account_id/tokens/pre_locks" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
 
     public function createPreLockTokens(string $account_id, array $transaction)
     {
-        $data = $this->post("/v3/accounts/$account_id/tokens/pre_locks", [
+        $data = $this->post("accounts/$account_id/tokens/pre_locks", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -92,7 +92,7 @@ class Token extends PrimasClient
 
     public function getLockTokensList(string $account_id, array $parameters = [])
     {
-        $data = $this->get("/v3/accounts/$account_id/tokens/locks" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("accounts/$account_id/tokens/locks" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }

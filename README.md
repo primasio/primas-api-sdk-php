@@ -5,7 +5,7 @@
 ## Rely
 
 ```
- "php-64bit": ">=7.0",
+ "php": ">=7.0",
  "ext-gmp": "*",
  "ext-scrypt": "~1.4",
  "ext-secp256k1": ">=0.1.0",
@@ -26,9 +26,9 @@
 * Note: the API configuration needs to be initialized before using the API method
 * If you need a large integer, use it as a string
 
-**No signing is required**
+
 ```php
-// If you don't sign
+
 \Primas\Primas::init([
 
     /*
@@ -50,13 +50,12 @@
     'timeout'=> 0 
 ]);
 ```
+
 **Signing is required**
 ```php
 /*
  * $privateKey Object instantiated for \Primas Types\Byte
  */
-
-\Primas\Primas::init($options, $privateKey);
 
 // How to get $privateKey ?
 // 1. Get it through the keystore
@@ -65,21 +64,11 @@
  */
 $keyStore = '{"version":3,"id":"e1a1909a-7a38-44aa-af04-61cd3a342008","address":"d75407ad8cabeeebfed78c4f3794208b3339fbf4","Crypto":{"ciphertext":"bcf8d3037432f731d3dbb0fde1b32be47faa202936c303ece7f53890a79f49d2","cipherparams":{"iv":"e28edaeff90032f24481c6117e593e01"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"7d7c824367d7f6607128c721d6e1729abf706a3165384bbfc2aae80510ec0ce2","n":1024,"r":8,"p":1},"mac":"52f98caaa4959448ec612e4314146b6a2d5022d5394b77e31f5a79780079c22f"}}';
 $password = "Test123:::";
-$keyStore = new \Primas\Keystore($keyStore, $password);
-$privateKey = $keyStore->getPrivateKey();
-$publicKey = $keyStore->getPublicKey();
-$address = $keyStore->getAddress();
+$keyStore = \Primas\Keystore::init($keyStore, $password);
+$privateKey = \Primas\Keystore::getPrivateKey();
+$publicKey =\Primas\Keystore::getPublicKey();
+$address = \Primas\Keystore::getAddress();
 
-// 2. Custom private key
-// A string of 64 length in hexadecimal
-$hex = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789";
-$privateKey = \Primas\Types\Byte::initWithHex($hex);
-
-// Initialize the API configuration
-\Primas\Primas::init([
-    "base_uri" => "https://staging.primas.io",
-    "verify" => true
-], $privateKey);
 ```
 
 ### API List

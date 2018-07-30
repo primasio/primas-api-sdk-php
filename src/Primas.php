@@ -12,6 +12,11 @@ class Primas
     const DTCP_VERSION = "1.0";
 
     /**
+     * Server version
+     */
+    const SERVER_VERSION = "v3";
+
+    /**
      * primas api request uri
      *
      * @var string
@@ -33,28 +38,13 @@ class Primas
     public static $timeout;
 
     /**
-     * @var Byte
-     */
-    private static $privateKey;
-
-    /**
-     * @return Byte
-     */
-    public static function getPrivateKey()
-    {
-        return self::$privateKey;
-    }
-
-    /**
      * @param array $options
-     * @param Byte|null $privateKey
      */
-    public static function init(array $options, Byte $privateKey = null)
+    public static function init(array $options)
     {
-        self::$baseUri = $options["base_uri"] ?? null;
+        self::$baseUri = $options["base_uri"] . "/" . self::SERVER_VERSION . "/" ?? null;
         self::$verify = $options["verify"] ?? true;
         self::$timeout = $options["timeout"] ?? 0;
-        self::$privateKey = $privateKey;
     }
 
 }

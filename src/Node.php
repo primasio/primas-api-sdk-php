@@ -19,7 +19,7 @@ class Node extends PrimasClient
      */
     public function getNodeLists(array $parameters = [])
     {
-        $data = $this->get("/v3/nodes" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("nodes" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }

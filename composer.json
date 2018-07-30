@@ -21,7 +21,7 @@
     }
   ],
   "require": {
-    "php-64bit": ">=7.0",
+    "php": ">=7.0",
     "ext-gmp": "*",
     "ext-scrypt": "~1.4",
     "ext-secp256k1": ">=0.1.0",

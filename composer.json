@@ -18,13 +18,14 @@
     {
       "name": "xiongchao",
       "email": "xiongchao@yuanben.org"
+
     }
   ],
   "require": {
     "php": ">=7.0",
     "ext-gmp": "*",
     "ext-scrypt": "~1.4",
-    "ext-secp256k1": ">=0.1.3",
+    "ext-secp256k1": "^0.1.3",
     "ext-keccak": "~0.2",
     "guzzlehttp/guzzle": "~6.0",
     "bitwasp/buffertools": "^0.5.0"

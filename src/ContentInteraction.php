@@ -12,12 +12,32 @@ use Primas\Exceptions\NotAllowException;
  */
 class ContentInteraction extends PrimasClient
 {
+    /**
+     *
+     */
     const TYPE = 'relation';
+    /**
+     *
+     */
     const REPORT_TAG = 'share_report';
+    /**
+     *
+     */
     const LIKE_TAG = 'share_like';
+    /**
+     *
+     */
     const COMMENT_TAG = 'share_comment';
+    /**
+     *
+     */
     const STATUS = 'created';
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getShare(string $id, array $parameters = [])
     {
         $data = $this->get("shares/$id" . "?" . $this->buildQuery($parameters));
@@ -25,6 +45,11 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSharesOfGroupShare(string $id, array $parameters = [])
     {
         $data = $this->get("shares/$id/shares?" . $this->buildQuery($parameters));
@@ -32,6 +57,11 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getShareReports(string $id, array $parameters = [])
     {
         $data = $this->get("shares/$id/reports?" . $this->buildQuery($parameters));
@@ -39,6 +69,12 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     * @throws \Exception
+     */
     public function reportShare(string $id, array $parameters)
     {
         $filters = [
@@ -57,6 +93,11 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getLikesOfGroupShare(string $id, array $parameters = [])
     {
         $data = $this->get("shares/$id/likes?" . $this->buildQuery($parameters));
@@ -64,6 +105,12 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     * @throws \Exception
+     */
     public function createLikeOfGroupShare(string $id, array $parameters)
     {
         $filters = [
@@ -82,11 +129,20 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
-    public function deleteLikeOfGroupShare(string $share_id,string $like_id)
+    /**
+     * @param string $share_id
+     * @param string $like_id
+     * @throws NotAllowException
+     */
+    public function deleteLikeOfGroupShare(string $share_id, string $like_id)
     {
         throw new NotAllowException("This method is not allowed in this version");
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function getReplyCommentsOfComments(string $id)
     {
         $data = $this->get("comments/$id/comments");
@@ -94,6 +150,11 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getCommentsOfGroupShare(string $id, array $parameters = [])
     {
         $data = $this->get("shares/$id/comments?" . $this->buildQuery($parameters));
@@ -101,6 +162,12 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return mixed
+     * @throws \Exception
+     */
     public function createCommentOfGroupShare(string $id, array $parameters)
     {
         $filters = [
@@ -119,12 +186,22 @@ class ContentInteraction extends PrimasClient
         return $data;
     }
 
-    public function updateCommentOfGroupShare(string $share_id,string $comment_id)
+    /**
+     * @param string $share_id
+     * @param string $comment_id
+     * @throws NotAllowException
+     */
+    public function updateCommentOfGroupShare(string $share_id, string $comment_id)
     {
         throw new NotAllowException("This method is not allowed in this version");
     }
 
-    public function deleteCommentOfGroupShare(string $share_id,string $comment_id)
+    /**
+     * @param string $share_id
+     * @param string $comment_id
+     * @throws NotAllowException
+     */
+    public function deleteCommentOfGroupShare(string $share_id, string $comment_id)
     {
         throw new NotAllowException("This method is not allowed in this version");
     }
@@ -140,12 +217,23 @@ class ContentInteraction extends PrimasClient
         }, ARRAY_FILTER_USE_KEY));
     }
 
+    /**
+     * @param array $data
+     * @param array $filters
+     * @return string
+     * @throws \Exception
+     */
     protected function generateData(array $data, array $filters)
     {
         $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
         return $this->completeMetadata($metadata);
     }
 
+    /**
+     * @param array $data
+     * @param array $filters
+     * @return array
+     */
     protected function initField(array $data, array $filters)
     {
         return array_merge($data, $filters);

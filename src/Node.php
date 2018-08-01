@@ -8,6 +8,10 @@ namespace Primas;
  * Class Node
  * @package Primas
  */
+/**
+ * Class Node
+ * @package Primas
+ */
 class Node extends PrimasClient
 {
 

@@ -12,9 +12,19 @@ use Primas\Exceptions\NotAllowException;
  */
 class Content extends PrimasClient
 {
+    /**
+     * fixed to 'object'
+     */
     const TYPE = 'object';
+    /**
+     * fixed to 'created'
+     */
     const STATUS = 'created';
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function getContent(string $id)
     {
         $data = $this->get("content/$id");
@@ -22,6 +32,10 @@ class Content extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function getRawContent(string $id)
     {
         $data = $this->get("content/$id/raw");
@@ -29,6 +43,11 @@ class Content extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param array $parameters
+     * @return mixed
+     * @throws \Exception
+     */
     public function createContent(array $parameters)
     {
         $filters = [
@@ -46,17 +65,32 @@ class Content extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $contet_id
+     * @throws NotAllowException
+     */
     public function updateContent(string $contet_id)
     {
         throw new NotAllowException("This method is not allowed in this version");
     }
 
+    /**
+     * @param array $data
+     * @param array $filters
+     * @return string
+     * @throws \Exception
+     */
     protected function generateData(array $data, array $filters)
     {
         $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
         return $this->completeMetadata($metadata);
     }
 
+    /**
+     * @param array $data
+     * @param array $filters
+     * @return array
+     */
     protected function initField(array $data, array $filters)
     {
         return array_merge($data, $filters);

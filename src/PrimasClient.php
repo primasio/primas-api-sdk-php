@@ -3,6 +3,7 @@
 namespace Primas;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Primas\Crypto\Keccak;
 use Primas\Crypto\Signature;
 use Primas\Exceptions\ErrorConfigException;
@@ -10,8 +11,15 @@ use Primas\Types\Byte;
 
 abstract class PrimasClient
 {
+    /**
+     * @var Client
+     */
     protected $client;
 
+    /**
+     * PrimasClient constructor.
+     * @throws ErrorConfigException
+     */
     public function __construct()
     {
         if (!Primas::$baseUri) {
@@ -26,6 +34,7 @@ abstract class PrimasClient
     /**
      * @param $function
      * @param $arguments
+     * @throws ClientException
      * @return mixed
      */
     public function __call($function, $arguments)

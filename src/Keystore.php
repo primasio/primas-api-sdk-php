@@ -133,7 +133,7 @@ class Keystore
     {
         $context = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);
         /** @var resource $publicKey */
-        $publicKey = '';
+        $publicKey = null;
         $result = secp256k1_ec_pubkey_create($context, $publicKey, $privateKey->getBinary());
         if ($result === 1) {
             $serialized = '';

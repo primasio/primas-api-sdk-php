@@ -12,8 +12,17 @@ use Primas\Exceptions\NotAllowException;
  */
 class Account extends PrimasClient
 {
+    /**
+     * fixed to 'object'
+     */
     const TYPE = 'object';
+    /**
+     * fixed to 'account'
+     */
     const TAG = 'account';
+    /**
+     * fixed to 'created'
+     */
     const CREATED_STATUS = 'created';
 
     /**
@@ -67,11 +76,23 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * Update account metadata
+     *
+     * @param array $array
+     * @throws NotAllowException
+     */
     public function updateAccount(array $array)
     {
         throw new NotAllowException("This method is not allowed in this version");
     }
 
+    /**
+     * Get account credits list
+     *
+     * @param string $account_id
+     * @return mixed
+     */
     public function getAccountCreditsList(string $account_id)
     {
         $data = $this->get("accounts/$account_id/credits");
@@ -79,6 +100,13 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * Get account content list
+     *
+     * @param string $account_id
+     * @param string $subId
+     * @return mixed
+     */
     public function getSubAccountCreditsList(string $account_id, string $subId)
     {
         $data = $this->get("accounts/$account_id/sub/$subId/credits");
@@ -86,6 +114,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountContentList(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/content?" . $this->buildQuery($parameters));
@@ -93,6 +126,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountContentList(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/content?" . $this->buildQuery($parameters));
@@ -100,6 +139,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountGroupList(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/groups?" . $this->buildQuery($parameters));
@@ -107,6 +151,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountGroupList(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/groups?" . $this->buildQuery($parameters));
@@ -114,6 +164,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountShares(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/shares?" . $this->buildQuery($parameters));
@@ -121,6 +176,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountShares(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/shares?" . $this->buildQuery($parameters));
@@ -128,6 +189,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $groupId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountSharesByGroup(string $account_id, string $groupId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/groups/$groupId/shares?" . $this->buildQuery($parameters));
@@ -135,6 +202,13 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param string $groupId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountSharesByGroup(string $account_id, string $subId, string $groupId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/groups/$groupId/shares?" . $this->buildQuery($parameters));
@@ -142,6 +216,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountLikes(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/likes?" . $this->buildQuery($parameters));
@@ -149,6 +228,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountLikes(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/likes?" . $this->buildQuery($parameters));
@@ -156,6 +241,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountComments(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/comments?" . $this->buildQuery($parameters));
@@ -163,6 +253,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountComments(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/comments?" . $this->buildQuery($parameters));
@@ -170,6 +266,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountGroupApplications(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/applications/groups?" . $this->buildQuery($parameters));
@@ -177,6 +278,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountGroupApplications(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/applications/groups?" . $this->buildQuery($parameters));
@@ -184,6 +291,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountShareApplications(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/applications/shares?" . $this->buildQuery($parameters));
@@ -191,6 +303,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountShareApplications(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/applications/shares?" . $this->buildQuery($parameters));
@@ -198,6 +316,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountReports(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/reports?" . $this->buildQuery($parameters));
@@ -205,6 +328,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountReports(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/reports?" . $this->buildQuery($parameters));
@@ -212,6 +341,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountNotifications(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/notifications?" . $this->buildQuery($parameters));
@@ -219,6 +353,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountNotifications(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/notifications?" . $this->buildQuery($parameters));
@@ -226,6 +366,11 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAccountAvatarMetadata(string $account_id, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/avatar?" . $this->buildQuery($parameters));
@@ -233,6 +378,12 @@ class Account extends PrimasClient
         return $data;
     }
 
+    /**
+     * @param string $account_id
+     * @param string $subId
+     * @param array $parameters
+     * @return mixed
+     */
     public function getSubAccountAvatarMetadata(string $account_id, string $subId, array $parameters = [])
     {
         $data = $this->get("accounts/$account_id/sub/$subId/avatar?" . $this->buildQuery($parameters));

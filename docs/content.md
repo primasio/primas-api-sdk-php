@@ -66,21 +66,40 @@ to set a price on the authorization of the content:
 ### 1. Get content metadata
 
 ```php
+
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
+
+$app = \Primas\Factory::content($config);
+
 $content_id="1GFYUNP815RUIFDNNRKLNU78RPCFLNL5DWGT7EXODHFVRCRVXJ";
-$content=new \Primas\Content();
-$content->getContent($content_id);
+
+$app->getContent($content_id);
 ```
 
 ### 2. Get raw content
 
 ```php
-$content->getRawContent(string $content_id);
+$app->getRawContent(string $content_id);
 ```
 
 ### 3. Post content
 
 ```php
-$content->createContent(array $parameters);
+$parameters=[
+    // ....
+];
+$metadataJson = $app->buildCreateAccount($parameters);
+// with keystore
+$signature = $app->sign($metadataJson);
+// with signature machine
+$signature = "your signature from signature machin";
+$metadataJson = $app->afterSign($metadataJson);
+$createRes = $app->createContent($metadataJson);
+
 ```
 
 

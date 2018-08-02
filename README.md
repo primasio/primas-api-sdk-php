@@ -88,7 +88,9 @@ $res = $account->createAccount($metadataJson);
 
 var_dump($res);
 
-// set the root account id
+// save the root account id
+// save the root account id
+// save the root account id
 
 // result
 /*

@@ -6,9 +6,16 @@
 
 ```php
 
-$timeline=new \Primas\TimeLine();
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ],
+    "account_id" => $account_id
+];
 
-$timeline->getAccountTimeline(string $account_id,array $parameters = []);
+$app = \Primas\Factory::time_line($config);
+
+$app->getAccountTimeline(array $parameters = []);
 
 ```
 

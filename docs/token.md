@@ -7,9 +7,16 @@
 
 ```php
 
-$token=new \Primas\Token();
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ],
+    "account_id" => $account_id
+];
 
-$token->getAccountTokensData(string $account_id);
+$app = \Primas\Factory::token($config);
+
+$app->getAccountTokensData();
 
 ```
 
@@ -19,9 +26,7 @@ $token->getAccountTokensData(string $account_id);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->getIncentivesList(string $account_id,array $parameters = []);
+$app->getIncentivesList(array $parameters = []);
 
 ```
 
@@ -30,9 +35,7 @@ $token->getIncentivesList(string $account_id,array $parameters = []);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->getIncentivesStatisticsList(string $account_id,array $parameters = []);
+$app->getIncentivesStatisticsList(array $parameters = []);
 
 ```
 
@@ -41,9 +44,7 @@ $token->getIncentivesStatisticsList(string $account_id,array $parameters = []);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->getIncentivesWithdrawalList(string $account_id,array $parameters = []);
+$app->getIncentivesWithdrawalList(array $parameters = []);
 
 ```
 
@@ -52,9 +53,16 @@ $token->getIncentivesWithdrawalList(string $account_id,array $parameters = []);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->createIncentivesWithdrawal(string $account_id,array $parameters);
+$parameters=[
+    // ....
+];
+$metadataJson = $app->buildCreateIncentivesWithdrawal($parameters);
+// with keystore
+$signature = $app->sign($metadataJson);
+// with signature machine
+$signature = "your signature from signature machin";
+$metadataJson = $app->afterSign($metadataJson);
+$app->createIncentivesWithdrawal($metadataJson);
 
 ```
 
@@ -63,9 +71,7 @@ $token->createIncentivesWithdrawal(string $account_id,array $parameters);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->getPreLockTokenList(string $account_id,array $parameters = []);
+$app->getPreLockTokenList(array $parameters = []);
 
 ```
 
@@ -75,9 +81,7 @@ $token->getPreLockTokenList(string $account_id,array $parameters = []);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->createPreLockTokens(string $account_id,array $transaction);
+$app->createPreLockTokens(array $transaction);
 
 ```
 
@@ -90,8 +94,6 @@ $token->createPreLockTokens(string $account_id,array $transaction);
 
 ```php
 
-$token=new \Primas\Token();
-
-$token->getLockTokensList(string $account_id,array $parameters = []);
+$app->getLockTokensList(array $parameters = []);
 
 ```

@@ -6,8 +6,14 @@
 
 ```php
 
-$system=new \Primas\System();
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
 
-$system->getSystemParameters(array $parameters);
+$app = \Primas\Factory::system($config);
+
+$app->getSystemParameters(array $parameters);
 
 ```

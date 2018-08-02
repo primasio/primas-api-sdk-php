@@ -6,9 +6,15 @@
 
 ```php
 
-$query=new \Primas\Query();
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
 
-$query->query(array $parameters = []);
+$app = \Primas\Factory::query($config);
+
+$app->query(array $parameters = []);
 
 ```
 

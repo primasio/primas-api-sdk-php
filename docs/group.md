@@ -5,16 +5,38 @@
 ### 1. Get group metadata
 
 ```php
-$group=new \Primas\Group();
-$group->getGroupMetadata(string $group_id, array $parameters = []);
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
+
+$app = \Primas\Factory::group($config);
+$app->getGroupMetadata(string $group_id, array $parameters = []);
 ```
 
 
 ### 2. Create group
 
 ```php
-$group=new \Primas\Group();
-$group->createGroup(array $parameters);
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
+
+$app = \Primas\Factory::group($config);
+
+$parameters=[
+    // ....
+];
+$metadataJson = $app->buildCreateGroup($parameters);
+// with keystore
+$signature = $app->sign($metadataJson);
+// with signature machine
+$signature = "your signature from signature machin";
+$metadataJson = $app->afterSign($metadataJson);
+$app->createGroup($metadataJson);
 ```
 
 
@@ -30,14 +52,24 @@ $group->createGroup(array $parameters);
 ### 5. Get group members
 
 ```php
-$group->getGroupMembers(string $group_id, array $parameters = []);
+$app->getGroupMembers(string $group_id, array $parameters = []);
 ```
 
 
 ### 6. Join group
 
 ```php
-$group->createGroup(string $group_id,array $parameters);
+$parameters=[
+    // ....
+];
+$metadataJson = $app->buildJoinGroup($parameters);
+// with keystore
+$signature = $app->sign($metadataJson);
+// with signature machine
+$signature = "your signature from signature machin";
+$metadataJson = $app->afterSign($metadataJson);
+$app->joinGroup(string $group_id,$metadataJson);
+
 ```
 
 
@@ -54,13 +86,13 @@ $group->createGroup(string $group_id,array $parameters);
 ### 9. Get group member whitelist
 
 ```php
-$group->getGroupMemberWhiteLists(string $group_id, array $parameters = []);
+$app->getGroupMemberWhiteLists(string $group_id, array $parameters = []);
 ```
 
 ### 10. Add group member whitelist
 
 ```php
-$group->createGroupMemberWhiteLists(string $group_id,array $parameters);
+$app->createGroupMemberWhiteLists(string $group_id,array $parameters);
 ```
 
 
@@ -77,14 +109,24 @@ $group->createGroupMemberWhiteLists(string $group_id,array $parameters);
 ### 13. Get group shares
 
 ```php
-$group->getGroupShares(string $group_id, array $parameters = []);
+$app->getGroupShares(string $group_id, array $parameters = []);
 ```
 
 
 ### 14. Share to a group
 
 ```php
-$group->createShareToGroup(string $group_id,array $parameters);
+$parameters=[
+    // ....
+];
+$metadataJson = $app->buildCreateShareToGroup($parameters);
+// with keystore
+$signature = $app->sign($metadataJson);
+// with signature machine
+$signature = "your signature from signature machin";
+$metadataJson = $app->afterSign($metadataJson);
+$app->createShareToGroup(string $group_id,$metadataJson);
+
 ```
 
 ### 15. Approve or decline share application
@@ -100,12 +142,12 @@ $group->createShareToGroup(string $group_id,array $parameters);
 ### 17. Get group avatar metadata
 
 ```php
-$group->getGroupAvatarMetadata(string $group_id);
+$app->getGroupAvatarMetadata(string $group_id);
 ```
 
 
 ### 18. Get group avatar raw image
 
 ```php
-$group->getGroupAvatarRawImage(string $group_id);
+$app->getGroupAvatarRawImage(string $group_id);
 ```

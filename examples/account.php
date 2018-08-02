@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 require_once "init.php";
 
 $account_id = "809a85f7ddf8ae5aaa49fe30be10e07e09156dc04166fab98bbd7bb42b2dc26c";
@@ -12,6 +9,7 @@ $config = [
     ],
     "account_id" => $account_id
 ];
+$account=\Primas\Factory::account($config);
 $parameters = [
     "name" => "Test:::123",
     "abstract" => "first test",

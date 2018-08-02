@@ -6,8 +6,14 @@
 
 ```php
 
-$node=new \Primas\Node();
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
 
-$node->getNodeLists(array $parameters = []);
+$app = \Primas\Factory::node($config);
+
+$app->getNodeLists(array $parameters = []);
 
 ```

@@ -6,13 +6,21 @@
 
 ```php
 
-$account=new \Primas\Account();
+$base_uri="https://staging.primas.io";  //test
 
-$account->getAccounts(string $account_id);
+$account_id = "809a85f7ddf8ae5aaa49fe30be10e07e09156dc04166fab98bbd7bb42b2dc26c";
+$config = [
+    "http_options" => [
+        "base_uri" => $base_uri
+    ],
+    "account_id" => $account_id
+];
+$app = \Primas\Factory::account($config);
+$app->getAccounts();
 
 // sub account
 
-$account->getAccounts(string $account_id,string $subId);
+$app->getSubAccounts(string $subId);
 
 ```
 
@@ -21,9 +29,82 @@ $account->getAccounts(string $account_id,string $subId);
 
 ```php
 
-$account=new \Primas\Account();
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
 
-$account->createAccount(array $parameters);
+$app = \Primas\Factory::account($config);
+
+
+// Sign with the keystore
+
+// Import the keystore
+$keystore = '{"version":3,"id":"e1a1909a-7a38-44aa-af04-61cd3a342008","address":"d75407ad8cabeeebfed78c4f3794208b3339fbf4","Crypto":{"ciphertext":"bcf8d3037432f731d3dbb0fde1b32be47faa202936c303ece7f53890a79f49d2","cipherparams":{"iv":"e28edaeff90032f24481c6117e593e01"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"7d7c824367d7f6607128c721d6e1729abf706a3165384bbfc2aae80510ec0ce2","n":1024,"r":8,"p":1},"mac":"52f98caaa4959448ec612e4314146b6a2d5022d5394b77e31f5a79780079c22f"}}';
+$password = "Test123:::";
+\Primas\Kernel\Eth\Keystore::init($keyStore, $password);
+
+$parameters = [
+    "name" => "Test123",
+    "abstract" => "first test",
+    "created" => time(),
+    "address" => (string)\Primas\Kernel\Eth\Keystore::getAddress();
+];
+
+$metadataJson = $app->buildCreateAccount($parameters);
+
+$signature = $app->sign($metadataJson);
+
+$metadataJson = $app->afterSign($metadataJson, $signature);
+
+$res = $app->createAccount($metadataJson);
+
+
+// ......
+
+// Sign with a signature machine
+
+$parameters = [
+    "name" => "Test123",
+    "abstract" => "first test",
+    "created" => time(),
+    "address" => "0xd75407ad8cabeeebfed78c4f3794208";
+];
+
+$metadataJson = $app->buildCreateAccount($parameters);
+
+// TODO request signature machine get signature
+// If it is asynchronous, save the correspondence between the signature result and the application.
+
+$signature="";
+
+$metadataJson = $app->afterSign($metadataJson, $signature);
+
+$res = $app->createAccount($metadataJson);
+
+var_dump($res);
+
+// save the root account id
+// save the root account id
+// save the root account id
+
+// result
+/*
+ array(3) {
+  ["result_code"]=>
+  int(0)
+  ["result_msg"]=>
+  string(7) "success"
+  ["data"]=>
+  array(2) {
+    ["id"]=>
+    string(64) "e19aa9a8cdc217c345925b7e824baea0ef6dab0e11117dfd2746be469b412724"
+    ["dna"]=>
+    string(64) "4659b4848c8e9e3ec60c94ded2cc58a35419411f58ff27dc51f116bb05577eb9"
+  }
+}
+*/
 
 ```
 
@@ -37,13 +118,13 @@ $account->createAccount(array $parameters);
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountCreditsList(string $account_id);
+$app->getAccountCreditsList();
 
 // sub account
 
-$account->getSubAccountCreditsList(string $account_id,string $subId);
+$app->getSubAccountCreditsList(string $subId);
 
 ```
 
@@ -52,13 +133,13 @@ $account->getSubAccountCreditsList(string $account_id,string $subId);
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountContentList(string $account_id , array $parameters = []);
+$app->getAccountContentList(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountContentList(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountContentList(string $subId , array $parameters = []);
 
 ```
 
@@ -67,13 +148,13 @@ $account->getSubAccountContentList(string $account_id,string $subId , array $par
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountGroupList(string $account_id , array $parameters = []);
+$app->getAccountGroupList(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountGroupList(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountGroupList(string $subId , array $parameters = []);
 
 ```
 
@@ -82,13 +163,13 @@ $account->getSubAccountGroupList(string $account_id,string $subId , array $param
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountShares(string $account_id , array $parameters = []);
+$app->getAccountShares(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountShares(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountShares(string $subId , array $parameters = []);
 
 ```
 
@@ -97,13 +178,13 @@ $account->getSubAccountShares(string $account_id,string $subId , array $paramete
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountShares(string $account_id, string $groupId, array $parameters = []);
+$app->getAccountShares( string $groupId, array $parameters = []);
 
 // sub account
 
-$account->getSubAccountSharesByGroup(string $account_id, string $subId, string $groupId, array $parameters = []);
+$app->getSubAccountSharesByGroup( string $subId, string $groupId, array $parameters = []);
 
 ```
 
@@ -112,13 +193,13 @@ $account->getSubAccountSharesByGroup(string $account_id, string $subId, string $
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountLikes(string $account_id , array $parameters = []);
+$app->getAccountLikes(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountLikes(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountLikes(string $subId , array $parameters = []);
 
 ```
 
@@ -128,13 +209,13 @@ $account->getSubAccountLikes(string $account_id,string $subId , array $parameter
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountComments(string $account_id , array $parameters = []);
+$app->getAccountComments(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountComments(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountComments(string $subId , array $parameters = []);
 
 ```
 
@@ -143,13 +224,13 @@ $account->getSubAccountComments(string $account_id,string $subId , array $parame
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountGroupApplications(string $account_id , array $parameters = []);
+$app->getAccountGroupApplications(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountGroupApplications(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountGroupApplications(string $subId , array $parameters = []);
 
 ```
 
@@ -157,13 +238,13 @@ $account->getSubAccountGroupApplications(string $account_id,string $subId , arra
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountShareApplications(string $account_id , array $parameters = []);
+$app->getAccountShareApplications(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountShareApplications(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountShareApplications(string $subId , array $parameters = []);
 
 ```
 
@@ -172,13 +253,13 @@ $account->getSubAccountShareApplications(string $account_id,string $subId , arra
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountReports(string $account_id , array $parameters = []);
+$app->getAccountReports(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountReports(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountReports(string $subId , array $parameters = []);
 
 ```
 
@@ -187,13 +268,13 @@ $account->getSubAccountReports(string $account_id,string $subId , array $paramet
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountNotifications(string $account_id , array $parameters = []);
+$app->getAccountNotifications(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountNotifications(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountNotifications(string $subId , array $parameters = []);
 
 ```
 
@@ -202,13 +283,13 @@ $account->getSubAccountNotifications(string $account_id,string $subId , array $p
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountAvatarMetadata(string $account_id , array $parameters = []);
+$app->getAccountAvatarMetadata(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountAvatarMetadata(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountAvatarMetadata(string $subId , array $parameters = []);
 
 ```
 
@@ -217,12 +298,12 @@ $account->getSubAccountAvatarMetadata(string $account_id,string $subId , array $
 
 ```php
 
-$account=new \Primas\Account();
+$app = \Primas\Factory::account($config);
 
-$account->getAccountAvatarRaw(string $account_id , array $parameters = []);
+$app->getAccountAvatarRaw(array $parameters = []);
 
 // sub account
 
-$account->getSubAccountAvatarRaw(string $account_id,string $subId , array $parameters = []);
+$app->getSubAccountAvatarRaw(string $subId , array $parameters = []);
 
 ```

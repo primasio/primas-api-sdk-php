@@ -24,52 +24,139 @@
 
 ### 安装
 
-* composer require ...
+* composer require primas/node
 
 ### 快速使用
 * 注意:使用API方法之前需初始化API配置
 
-**请求配置初始化**
-```php
-// 如果不进行签名操作
-\Primas\Primas::init([
+**例子**
 
-    /*
-     * (string|UriInterface) 基URI用来合并到相关URI，可以是一个字符串或者UriInterface的实例，当提供了相关uri，将合并到基URI
-     */
-    "base_uri" => "https://staging.primas.io",
-    /*
-     * 请求时验证SSL证书行为。
-     * 设置成 true 启用SSL证书验证，默认使用操作系统提供的CA包。
-     * 设置成 false 禁用证书验证(这是不安全的！)。
-     * 设置成字符串启用验证，并使用该字符串作为自定义证书CA包的路径。
-     * @var bool|string
-     * @default true
-     */
-    "verify" => true,
-    /*
-     * request time,default is 0,mean always waiting
-     */
-    'timeout'=> 0 
-]);
-```
-**签名初始化**
-```php
-/*
- * $privateKey 为 \Primas\Types\Byte实例化的对象
- */
+**创建root账户**
 
-// 如何获取 $privateKey ?
-// 1. 通过keystore获取
-/*
- * 密码需和keystore对应,否则会抛异常
- */
-$keyStore = '{"version":3,"id":"e1a1909a-7a38-44aa-af04-61cd3a342008","address":"d75407ad8cabeeebfed78c4f3794208b3339fbf4","Crypto":{"ciphertext":"bcf8d3037432f731d3dbb0fde1b32be47faa202936c303ece7f53890a79f49d2","cipherparams":{"iv":"e28edaeff90032f24481c6117e593e01"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"7d7c824367d7f6607128c721d6e1729abf706a3165384bbfc2aae80510ec0ce2","n":1024,"r":8,"p":1},"mac":"52f98caaa4959448ec612e4314146b6a2d5022d5394b77e31f5a79780079c22f"}}';
+```php
+
+$config = [
+    "http_options" => [
+        "base_uri" => "https://staging.primas.io"      // testnet
+    ]
+];
+
+$app = \Primas\Factory::account($config);
+
+
+// Sign with the keystore
+
+// Import the keystore
+$keystore = '{"version":3,"id":"e1a1909a-7a38-44aa-af04-61cd3a342008","address":"d75407ad8cabeeebfed78c4f3794208b3339fbf4","Crypto":{"ciphertext":"bcf8d3037432f731d3dbb0fde1b32be47faa202936c303ece7f53890a79f49d2","cipherparams":{"iv":"e28edaeff90032f24481c6117e593e01"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"7d7c824367d7f6607128c721d6e1729abf706a3165384bbfc2aae80510ec0ce2","n":1024,"r":8,"p":1},"mac":"52f98caaa4959448ec612e4314146b6a2d5022d5394b77e31f5a79780079c22f"}}';
 $password = "Test123:::";
-$keyStore = \Primas\Keystore::init($keyStore, $password);
-$privateKey = \Primas\Keystore::getPrivateKey();
-$publicKey =\Primas\Keystore::getPublicKey();
-$address = \Primas\Keystore::getAddress();
+\Primas\Kernel\Eth\Keystore::init($keyStore, $password);
+
+$parameters = [
+    "name" => "Test123",
+    "abstract" => "first test",
+    "created" => time(),
+    "address" => (string)\Primas\Kernel\Eth\Keystore::getAddress();
+];
+
+$metadataJson = $app->buildCreateAccount($parameters);
+
+$signature = $app->sign($metadataJson);
+
+$metadataJson = $app->afterSign($metadataJson, $signature);
+
+$res = $account->createAccount($metadataJson);
+
+
+// ......
+
+// Sign with a signature machine
+
+$parameters = [
+    "name" => "Test123",
+    "abstract" => "first test",
+    "created" => time(),
+    "address" => "0xd75407ad8cabeeebfed78c4f3794208";
+];
+
+$metadataJson = $app->buildCreateAccount($parameters);
+
+// TODO request signature machine get signature
+// If it is asynchronous, save the correspondence between the signature result and the application.
+
+$signature="";
+
+$metadataJson = $app->afterSign($metadataJson, $signature);
+
+$res = $account->createAccount($metadataJson);
+
+var_dump($res);
+
+// set the root account id
+
+// result
+/*
+ array(3) {
+  ["result_code"]=>
+  int(0)
+  ["result_msg"]=>
+  string(7) "success"
+  ["data"]=>
+  array(2) {
+    ["id"]=>
+    string(64) "e19aa9a8cdc217c345925b7e824baea0ef6dab0e11117dfd2746be469b412724"
+    ["dna"]=>
+    string(64) "4659b4848c8e9e3ec60c94ded2cc58a35419411f58ff27dc51f116bb05577eb9"
+  }
+}
+*/
+
+```
+
+### Factory 
+
+#### 1、static method
+
+```php
+
+/**
+ * Class Factory
+ *
+ * @method static \Primas\Account\Application                  account(array $config)
+ * @method static \Primas\Content\Application                  content(array $config)
+ * @method static \Primas\ContentInteraction\Application       content_interaction(array $config)
+ * @method static \Primas\Group\Application                    group(array $config)
+ * @method static \Primas\Node\Application                     node(array $config)
+ * @method static \Primas\Query\Application                    query(array $config)
+ * @method static \Primas\System\Application                   system(array $config)
+ * @method static \Primas\TimeLine\Application                 time_line(array $config)
+ * @method static \Primas\Token\Application                    token(array $config)
+ *
+ * @package Primas
+ */
+class Factory
+{
+  ...
+}
+
+```
+
+#### 2、config introduce
+
+* An array type
+```php
+
+$config = [
+    /*
+     * refer guzzle http document http://guzzle.readthedocs.io/en/stable/request-options.html
+     */
+    "http_options" => [
+        "base_uri" => BASE_URI
+    ],
+    /*
+     * root account id
+     */
+    "account_id" => $account_id
+];
 
 ```
 

@@ -26,6 +26,9 @@
 * Note: the API configuration needs to be initialized before using the API method
 * If you need a large integer, use it as a string
 
+**Example**
+
+**create root account**
 
 ```php
 

@@ -1,10 +1,32 @@
 <?php
 
+
+
+
 require_once "init.php";
 
+$account_id = "809a85f7ddf8ae5aaa49fe30be10e07e09156dc04166fab98bbd7bb42b2dc26c";
+$config = [
+    "http_options" => [
+        "base_uri" => BASE_URI
+    ],
+    "account_id" => $account_id
+];
+$parameters = [
+    "name" => "Test:::123",
+    "abstract" => "first test",
+    "created" => 1532941632,
+    "creator" => [
+        "account_id" => $account_id,
+        "sub_account_id" => "testsubaccount"
+    ]
+];
+$res = $account->createAccount($parameters);
+
+var_dump($res);
+
 // create
-$account = new \Primas\Account();
-$account_id = "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3";
+$account = \Primas\Factory::account($config);
 
 $parameters = [
     "name" => "Test:::123",
@@ -41,11 +63,11 @@ $subAccountId = "testsubaccount";
 
 // get
 
-$accountData = $account->getAccounts($account_id);
+$accountData = $account->getAccounts();
 var_dump($accountData);
 
-$subAccountData = $account->getSubAccounts($account_id, $subAccountId);
+$subAccountData = $account->getSubAccounts($subAccountId);
 var_dump($subAccountData);
 
-$accountCreditList = $account->getAccountCreditsList($account_id);
+$accountCreditList = $account->getAccountCreditsList();
 var_dump($accountCreditList);

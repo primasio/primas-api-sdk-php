@@ -8,7 +8,7 @@ $config = [
     "http_options" => [
         "base_uri" => BASE_URI,
         "headers" => [
-            "Content-Type"=>"text/html"
+            "Content-Type"=>"application/json"
         ]
     ],
     "account_id" => $account_id
@@ -21,14 +21,17 @@ $res4 = $token->getIncentivesWithdrawalList();
 $res5 = $token->getLockTokensList();
 $res6 = $token->getPreLockTokenList();
 var_dump($res, $res2, $res3, $res4, $res5, $res6);
-exit;
+//exit;
 $parameters = [
     "node_id" => "58f47077984e5daa4d2ea46f2e689177a1655c1321544e69f851530a789e9fd7",
     "amount" => "3219223372036854775807",   // php not support bigint type use string replace
     "created" => 1532525161,
     "node_fee" => "1239223372036854775807"  // php not support bigint type use string replace
 ];
-$res7 = $token->createIncentivesWithdrawal($account_id, $parameters);
+$metadataJson=$token->buildCreateIncentivesWithdrawal($parameters);
+$sign=$token->sign($metadataJson);
+$metadata=$token->afterSign($metadataJson,$sign);
+$res7 = $token->createIncentivesWithdrawal($metadata);
 $transaction = [
     "id" => "",
     "block_number" => 1,
@@ -36,7 +39,7 @@ $transaction = [
     "estimated_time" => 1,
     "confirmed_time" => time()
 ];
-$res8 = $token->createPreLockTokens($account_id, $transaction);
+$res8 = $token->createPreLockTokens($transaction);
 
 var_dump($res, $res2, $res3, $res4, $res5, $res6, $res7);
 exit;

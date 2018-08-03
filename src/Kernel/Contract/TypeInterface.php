@@ -3,6 +3,7 @@
 namespace Primas\Kernel\Contract;
 
 use GMP;
+use Primas\Kernel\Types\Buffer;
 
 interface TypeInterface
 {

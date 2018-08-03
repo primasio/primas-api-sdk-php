@@ -8,8 +8,9 @@ use Primas\Kernel\Support\Utils;
 class Byte extends TypeAbstract
 {
     /**
-     * @param string|int $string
+     * @param string $string
      * @return Byte
+     * @throws Exception
      */
     public static function init($string = ''): Byte
     {

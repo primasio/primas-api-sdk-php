@@ -56,9 +56,9 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature = $app->sign($metadataJson);
 
-$metadataJson = $app->afterSign($metadataJson, $signature);
+$metadata = $app->afterSign($metadataJson, $signature);
 
-$res = $app->createAccount($metadataJson);
+$res = $app->createAccount($metadata);
 
 
 // ......
@@ -79,9 +79,9 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature="";
 
-$metadataJson = $app->afterSign($metadataJson, $signature);
+$metadata = $app->afterSign($metadataJson, $signature);
 
-$res = $app->createAccount($metadataJson);
+$res = $app->createAccount($metadata);
 
 var_dump($res);
 

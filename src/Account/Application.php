@@ -7,7 +7,8 @@ use Primas\Kernel\Code;
 use Primas\Kernel\Exceptions\ErrorConfigException;
 use Primas\Kernel\Exceptions\NotAllowException;
 use Primas\Kernel\Support\Json;
-use Primas\Kernel\Traits\Metadata;
+use Primas\Kernel\Traits\MetadataTrait;
+use Primas\Kernel\Types\Metadata;
 
 /**
  * Account APIs
@@ -17,7 +18,7 @@ use Primas\Kernel\Traits\Metadata;
  */
 class Application extends BaseClient
 {
-    use Metadata;
+    use MetadataTrait;
     /**
      * fixed to 'object'
      */
@@ -78,15 +79,13 @@ class Application extends BaseClient
     /**
      * Create account
      *
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
      */
-    public function createAccount(string $metadataJson)
+    public function createAccount(Metadata $metadata)
     {
-        $data = $this->post("accounts", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("accounts", $metadata);
         $result = Json::json_decode($data, true);
         if (isset($result["result_code"]) && $result["result_code"] === Code::OK && isset($result["data"])) {
             $this->setAccountId($result["data"]["id"]);
@@ -97,10 +96,10 @@ class Application extends BaseClient
     /**
      * Update account metadata
      *
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @throws NotAllowException
      */
-    public function updateAccount(string $metadataJson)
+    public function updateAccount(Metadata $metadata)
     {
         throw new NotAllowException("This method is not allowed in this version");
     }

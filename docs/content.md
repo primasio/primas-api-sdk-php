@@ -97,8 +97,8 @@ $metadataJson = $app->buildCreateAccount($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$createRes = $app->createContent($metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$createRes = $app->createContent($metadata);
 
 ```
 

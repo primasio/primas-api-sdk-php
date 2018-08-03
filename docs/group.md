@@ -35,8 +35,8 @@ $metadataJson = $app->buildCreateGroup($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$app->createGroup($metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$app->createGroup($metadata);
 ```
 
 
@@ -67,8 +67,8 @@ $metadataJson = $app->buildJoinGroup($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$app->joinGroup(string $group_id,$metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$app->joinGroup(string $group_id,$metadata);
 
 ```
 
@@ -92,7 +92,18 @@ $app->getGroupMemberWhiteLists(string $group_id, array $parameters = []);
 ### 10. Add group member whitelist
 
 ```php
-$app->createGroupMemberWhiteLists(string $group_id,array $parameters);
+
+$parameters=[
+    // ....
+];
+$metadataJson = $app->buildCreateGroupMemberWhiteLists($parameters);
+// with keystore
+$signature = $app->sign($metadataJson);
+// with signature machine
+$signature = "your signature from signature machin";
+$metadata = $app->afterSign($metadataJson);
+$app->createGroupMemberWhiteLists(string $group_id,$metadata);
+
 ```
 
 
@@ -124,8 +135,8 @@ $metadataJson = $app->buildCreateShareToGroup($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$app->createShareToGroup(string $group_id,$metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$app->createShareToGroup(string $group_id,$metadata);
 
 ```
 

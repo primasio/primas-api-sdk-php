@@ -4,8 +4,17 @@
 
 ## Rely
 
+**Sign with a signature machine**
+
 ```
  "php": ">=7.0",
+ "ext-gmp": "*",
+ "guzzlehttp/guzzle": "~6.0"
+```
+
+**Sign with the keystore**
+```
+ "php-64bit": ">=7.0",
  "ext-gmp": "*",
  "ext-scrypt": "~1.4",
  "ext-secp256k1": ">=0.1.0",
@@ -29,6 +38,7 @@
 **Example**
 
 **create root account**
+* Remember to save the root account id
 
 ```php
 
@@ -59,9 +69,9 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature = $app->sign($metadataJson);
 
-$metadataJson = $app->afterSign($metadataJson, $signature);
+$metadata = $app->afterSign($metadataJson, $signature);
 
-$res = $account->createAccount($metadataJson);
+$res = $account->createAccount($metadata);
 
 
 // ......
@@ -82,9 +92,9 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature="";
 
-$metadataJson = $app->afterSign($metadataJson, $signature);
+$metadata = $app->afterSign($metadataJson, $signature);
 
-$res = $account->createAccount($metadataJson);
+$res = $account->createAccount($metadata);
 
 var_dump($res);
 
@@ -149,7 +159,11 @@ $config = [
      * refer guzzle http document http://guzzle.readthedocs.io/en/stable/request-options.html
      */
     "http_options" => [
-        "base_uri" => BASE_URI
+        "base_uri" => BASE_URI,   // default  https://rigel-a.primas.network
+        "headers"  =>  [
+            "Content-Type" => "application/json"     // default application/json
+             // ...
+        ],
     ],
     /*
      * root account id

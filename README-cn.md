@@ -6,8 +6,17 @@
 
 - [English Document](README-en.md)
 
-## 依赖
+## 依赖 
 
+**Sign with a signature machine**
+
+```
+ "php": ">=7.0",
+ "ext-gmp": "*",
+ "guzzlehttp/guzzle": "~6.0"
+```
+
+**Sign with the keystore**
 ```
  "php-64bit": ">=7.0",
  "ext-gmp": "*",
@@ -17,6 +26,7 @@
  "guzzlehttp/guzzle": "~6.0",
  "bitwasp/buffertools": "^0.5.0"
 ```
+
 
 * ext-scrypt: [https://github.com/DomBlack/php-scrypt](https://github.com/DomBlack/php-scrypt)
 * ext-secp256k1: [https://github.com/Bit-Wasp/secp256k1-php](https://github.com/Bit-Wasp/secp256k1-php)
@@ -32,6 +42,7 @@
 **例子**
 
 **创建root账户**
+* 记住保存root账号ID
 
 ```php
 
@@ -62,9 +73,9 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature = $app->sign($metadataJson);
 
-$metadataJson = $app->afterSign($metadataJson, $signature);
+$metadata = $app->afterSign($metadataJson, $signature);
 
-$res = $account->createAccount($metadataJson);
+$res = $account->createAccount($metadata);
 
 
 // ......
@@ -85,9 +96,9 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature="";
 
-$metadataJson = $app->afterSign($metadataJson, $signature);
+$metadata = $app->afterSign($metadataJson, $signature);
 
-$res = $account->createAccount($metadataJson);
+$res = $account->createAccount($metadata);
 
 var_dump($res);
 

@@ -8,12 +8,13 @@ use Primas\Kernel\Eth\Keystore;
 use Primas\Kernel\Support\Arr;
 use Primas\Kernel\Support\Json;
 use Primas\Kernel\Types\Byte;
+use Primas\Kernel\Types\Metadata;
 
 /**
  * Trait Metadata
  * @package Primas\Kernel\Traits
  */
-trait Metadata
+trait MetadataTrait
 {
 
     /**
@@ -21,7 +22,7 @@ trait Metadata
      * @param array $filters
      * @return array
      */
-    protected function initField(array $data, array $filters)
+    private function initField(array $data, array $filters): array
     {
         return array_merge($data, $filters);
     }
@@ -30,7 +31,7 @@ trait Metadata
      * @param array $data
      * @return array
      */
-    protected function removeFields(array $data)
+    private function removeFields(array $data): array
     {
         $removeFields = ['signature'];
         foreach ($removeFields as $field) {
@@ -44,7 +45,7 @@ trait Metadata
      * @param array $filters
      * @return string
      */
-    protected function beforeSign(array $data, array $filters = [])
+    protected function beforeSign(array $data, array $filters = []): string
     {
         $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
         $metadata = Arr::ksort($metadata);
@@ -57,7 +58,7 @@ trait Metadata
      * @return string
      * @throws \Exception
      */
-    public function sign(string $metadataJson)
+    public function sign(string $metadataJson): string
     {
         $signature = Signature::sign(Byte::initWithHex(Keccak::hash($metadataJson, 256), Keystore::getPrivateKey()))->getHex();
         return $signature;
@@ -66,12 +67,12 @@ trait Metadata
     /**
      * @param string $metadataJson
      * @param string $signature
-     * @return string
+     * @return Metadata
      */
-    public function afterSign(string $metadataJson, string $signature)
+    public function afterSign(string $metadataJson, string $signature) : Metadata
     {
         $metadata = Json::json_decode($metadataJson, true);
         $metadata["signature"] = $signature;
-        return Json::json_encode($metadata);
+        return Metadata::init($metadata);
     }
 }

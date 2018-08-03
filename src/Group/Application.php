@@ -4,7 +4,8 @@ namespace Primas\Group;
 
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
-use Primas\Kernel\Traits\Metadata;
+use Primas\Kernel\Traits\MetadataTrait;
+use Primas\Kernel\Types\Metadata;
 
 /**
  * Group APIs
@@ -14,7 +15,7 @@ use Primas\Kernel\Traits\Metadata;
  */
 class Application extends BaseClient
 {
-    use Metadata;
+    use MetadataTrait;
 
     const CREATE_GROUP_TYPE = 'object';
 
@@ -61,14 +62,12 @@ class Application extends BaseClient
 }
 
     /**
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      */
-    public function createGroup(string $metadataJson)
+    public function createGroup(Metadata $metadata)
     {
-        $data = $this->post("groups", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("groups", $metadata);
 
         return $data;
     }
@@ -119,14 +118,12 @@ class Application extends BaseClient
 
     /**
      * @param string $group_id
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      */
-    public function joinGroup(string $group_id, string $metadataJson)
+    public function joinGroup(string $group_id, Metadata $metadata)
     {
-        $data = $this->post("groups/$group_id/members", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("groups/$group_id/members", $metadata);
 
         return $data;
     }
@@ -182,14 +179,12 @@ class Application extends BaseClient
 
     /**
      * @param string $group_id
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      */
-    public function createGroupMemberWhiteLists(string $group_id, string $metadataJson)
+    public function createGroupMemberWhiteLists(string $group_id, Metadata $metadata)
     {
-        $data = $this->post("groups/$group_id/members/whitelist", [
-            'body' => $metadataJson
-        ]);
+        $data = $this->post("groups/$group_id/members/whitelist", $metadata);
 
         return $data;
     }
@@ -244,14 +239,12 @@ class Application extends BaseClient
 
     /**
      * @param string $group_id
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      */
-    public function createShareToGroup(string $group_id, string $metadataJson)
+    public function createShareToGroup(string $group_id, Metadata $metadata)
     {
-        $data = $this->post("groups/$group_id/shares", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("groups/$group_id/shares", $metadata);
 
         return $data;
     }

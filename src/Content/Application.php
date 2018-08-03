@@ -4,7 +4,9 @@ namespace Primas\Content;
 
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
-use Primas\Kernel\Traits\Metadata;
+use Primas\Kernel\Exceptions\ParameterException;
+use Primas\Kernel\Traits\MetadataTrait;
+use Primas\Kernel\Types\Metadata;
 
 /**
  * Content APIs
@@ -14,7 +16,7 @@ use Primas\Kernel\Traits\Metadata;
  */
 class Application extends BaseClient
 {
-    use Metadata;
+    use MetadataTrait;
     /**
      * fixed to 'object'
      */
@@ -49,6 +51,7 @@ class Application extends BaseClient
     /**
      * @param array $parameters
      * @return string
+     * @throws ParameterException
      */
     public function buildCreateContent(array $parameters)
     {
@@ -57,19 +60,24 @@ class Application extends BaseClient
             "type" => self::TYPE,
             "status" => self::STATUS
         ];
+        if (!isset($parameters["content"])) {
+            throw new ParameterException("content field is should");
+        }
+        $content_type = $this->getHttpOptions()["headers"]["Content-Type"];
+        if($content_type === "application/json"){
+            $parameters["content"] = base64_encode($parameters["content"]);
+        }
         return $this->beforeSign($parameters, $filters);
     }
 
     /**
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
      */
-    public function createContent(string $metadataJson)
+    public function createContent(Metadata $metadata)
     {
-        $data = $this->post("content", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("content", $metadata);
 
         return $data;
     }

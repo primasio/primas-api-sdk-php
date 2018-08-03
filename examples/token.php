@@ -6,7 +6,10 @@ require_once "init.php";
 $account_id = "809a85f7ddf8ae5aaa49fe30be10e07e09156dc04166fab98bbd7bb42b2dc26c";
 $config = [
     "http_options" => [
-        "base_uri" => BASE_URI
+        "base_uri" => BASE_URI,
+        "headers" => [
+            "Content-Type"=>"text/html"
+        ]
     ],
     "account_id" => $account_id
 ];

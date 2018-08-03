@@ -4,7 +4,8 @@ namespace Primas\Token;
 
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
-use Primas\Kernel\Traits\Metadata;
+use Primas\Kernel\Traits\MetadataTrait;
+use Primas\Kernel\Types\Metadata;
 
 /**
  * Token APIs
@@ -14,7 +15,7 @@ use Primas\Kernel\Traits\Metadata;
  */
 class Application extends BaseClient
 {
-    use Metadata;
+    use MetadataTrait;
     /**
      * fixed to object
      */
@@ -113,16 +114,14 @@ class Application extends BaseClient
     }
 
     /**
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
      */
-    public function createIncentivesWithdrawal(string $metadataJson)
+    public function createIncentivesWithdrawal(Metadata $metadata)
     {
         $account_id = $this->getAccountId();
-        $data = $this->post("accounts/$account_id/tokens/incentives/withdrawal", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("accounts/$account_id/tokens/incentives/withdrawal", $metadata);
 
         return $data;
     }
@@ -141,7 +140,6 @@ class Application extends BaseClient
         return $data;
     }
 
-
     /**
      * @param array $transaction
      * @return mixed
@@ -150,14 +148,8 @@ class Application extends BaseClient
     public function createPreLockTokens(array $transaction)
     {
         $account_id = $this->getAccountId();
-        $data = $this->post("accounts/$account_id/tokens/pre_locks", [
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-            'body' => json_encode([
-                "transaction" => $transaction
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-        ]);
+        $metadata = Metadata::init($transaction);
+        $data = $this->post("accounts/$account_id/tokens/pre_locks", $metadata);
 
         return $data;
     }

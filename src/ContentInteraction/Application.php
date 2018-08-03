@@ -4,7 +4,8 @@ namespace Primas\ContentInteraction;
 
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
-use Primas\Kernel\Traits\Metadata;
+use Primas\Kernel\Traits\MetadataTrait;
+use Primas\Kernel\Types\Metadata;
 
 /**
  * Content Interaction APIs
@@ -14,7 +15,7 @@ use Primas\Kernel\Traits\Metadata;
  */
 class Application extends BaseClient
 {
-    use Metadata;
+    use MetadataTrait;
 
     /**
      * fixed to relation
@@ -90,16 +91,14 @@ class Application extends BaseClient
 
     /**
      * @param string $share_id
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
      */
-    public function reportShare(string $share_id, string $metadataJson)
+    public function reportShare(string $share_id, Metadata $metadata)
     {
 
-        $data = $this->post("shares/$share_id/reports", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("shares/$share_id/reports", $metadata);
 
         return $data;
     }
@@ -134,15 +133,13 @@ class Application extends BaseClient
 
     /**
      * @param string $share_id
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
      */
-    public function createLikeOfGroupShare(string $share_id, string $metadataJson)
+    public function createLikeOfGroupShare(string $share_id, Metadata $metadata)
     {
-        $data = $this->post("shares/$share_id/likes", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("shares/$share_id/likes", $metadata);
 
         return $data;
     }
@@ -197,15 +194,13 @@ class Application extends BaseClient
 
     /**
      * @param string $share_id
-     * @param string $metadataJson
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
      */
-    public function createCommentOfGroupShare(string $share_id, string $metadataJson)
+    public function createCommentOfGroupShare(string $share_id, Metadata $metadata)
     {
-        $data = $this->post("shares/$share_id/comments", [
-            'body' => $metadataJson,
-        ]);
+        $data = $this->post("shares/$share_id/comments", $metadata);
 
         return $data;
     }

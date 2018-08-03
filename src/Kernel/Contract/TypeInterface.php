@@ -1,6 +1,6 @@
 <?php
 
-namespace Primas\Kernel\Types;
+namespace Primas\Kernel\Contract;
 
 use GMP;
 

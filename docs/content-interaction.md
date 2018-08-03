@@ -42,8 +42,8 @@ $metadataJson = $app->buildReportShare($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$res = $app->reportShare(string $share_id, metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$res = $app->reportShare(string $share_id, $metadata);
 ```
 
 
@@ -67,8 +67,8 @@ $metadataJson = $app->buildCreateLikeOfGroupShare($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$res = $app->createLikeOfGroupShare(string $share_id, metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$res = $app->createLikeOfGroupShare(string $share_id, $metadata);
 
 ```
 
@@ -102,8 +102,8 @@ $metadataJson = $app->buildCreateCommentOfGroupShare($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$res = $app->createCommentOfGroupShare(string $share_id, metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$res = $app->createCommentOfGroupShare(string $share_id, $metadata);
 
 ```
 

@@ -5,6 +5,7 @@ namespace Primas\Kernel;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\Exceptions\ErrorConfigException;
+use Primas\Kernel\Support\Json;
 
 abstract class BaseClient
 {
@@ -25,11 +26,6 @@ abstract class BaseClient
     private $httpOptions = array();
 
     /**
-     * @var bool
-     */
-    private $keystore = false;
-
-    /**
      * @var string
      */
     private $accountId;
@@ -42,8 +38,9 @@ abstract class BaseClient
     /**
      * @param $account_id
      */
-    public function setAccountId($account_id){
-        $this->accountId=$account_id;
+    public function setAccountId($account_id)
+    {
+        $this->accountId = $account_id;
     }
 
     /**
@@ -64,26 +61,23 @@ abstract class BaseClient
     {
         $options = [
             'base_uri' => 'https://rigel-a.primas.network/' . self::SERVER_VERSION . "/",
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ]
         ];
-        return array_merge($options, $this->httpOptions);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isKeystore(): bool
-    {
-        return $this->keystore;
+        return array_replace_recursive($options, $this->httpOptions);
     }
 
     public function __construct(array $config = [])
     {
         $this->httpOptions = $config["http_options"] ?? [];
-        $this->httpOptions['headers'] = [
-            'Content-Type' => 'application/json',
-        ];
         if (isset($this->httpOptions['base_uri'])) {
             $this->httpOptions['base_uri'] = $this->httpOptions['base_uri'] . "/" . self::SERVER_VERSION . "/";
+        }
+        if (isset($this->httpOptions['headers']) && isset($this->httpOptions['headers']['Content-Type'])) {
+            if (!in_array($this->httpOptions['headers']['Content-Type'], ['application/json', 'multipart/form-data', 'application/x-www-form-urlencoded'])) {
+                throw new ErrorConfigException("{$this->httpOptions['headers']['Content-Type']} is not allowed!");
+            }
         }
         $this->httpClient = new Client($this->getHttpOptions());
         $this->accountId = $config["account_id"] ?? "";
@@ -97,8 +91,30 @@ abstract class BaseClient
      */
     public function __call($function, $arguments)
     {
+        switch ($function) {
+            case "post":
+            case "put":
+            case "delete":
+                if (isset($arguments[1])) {
+                    $content_type = $this->getHttpOptions()["headers"]["Content-Type"];
+                    if ($content_type === 'application/json') {
+                        $arguments[1] = [
+                            "body" => $arguments[1]->toJson()
+                        ];
+                    } elseif ($content_type === 'application/x-www-form-urlencoded') {
+                        $arguments[1] = [
+                            "form_params" => $arguments[1]->toFormParms()
+                        ];
+                    } else {
+                        $arguments[1] = [
+                            "multipart" => $arguments[1]->toMultipart()
+                        ];
+                    }
+                }
+                break;
+        }
         $response = $this->httpClient->$function(...$arguments);
         $content = $response->getBody()->getContents();
-        return json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
+        return Json::json_decode($content, true);
     }
 }

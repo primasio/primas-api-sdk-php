@@ -2,6 +2,10 @@
 
 namespace Primas\Kernel\Support;
 
+/**
+ * Class Json
+ * @package Primas\Kernel\Support
+ */
 class Json
 {
 
@@ -59,6 +63,13 @@ class Json
         return '{' . $json . '}'; //Return associative JSON
     }
 
+    /**
+     * @param string $json
+     * @param bool $assoc
+     * @param int $depth
+     * @param int $options
+     * @return mixed
+     */
     public static function json_decode(string $json, bool $assoc = false, int $depth = 512, int $options = JSON_BIGINT_AS_STRING)
     {
         return json_decode($json, $assoc, $depth, $options);

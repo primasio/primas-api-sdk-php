@@ -3,6 +3,7 @@
 namespace Primas\Kernel\Types;
 
 use BitWasp\Buffertools\BufferInterface;
+use Primas\Kernel\Contract\TypeInterface;
 use ReflectionClass;
 use BadMethodCallException;
 use ArgumentCountError;

@@ -61,8 +61,8 @@ $metadataJson = $app->buildCreateIncentivesWithdrawal($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadataJson = $app->afterSign($metadataJson);
-$app->createIncentivesWithdrawal($metadataJson);
+$metadata = $app->afterSign($metadataJson);
+$app->createIncentivesWithdrawal($metadata);
 
 ```
 

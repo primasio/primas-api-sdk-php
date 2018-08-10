@@ -2,6 +2,7 @@
 
 namespace Primas\Group;
 
+use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
 use Primas\Kernel\Traits\MetadataTrait;
@@ -39,6 +40,7 @@ class Application extends BaseClient
      * @param string $group_id
      * @param array $parameters
      * @return mixed
+     * @throws  ClientException
      */
     public function getGroupMetadata(string $group_id, array $parameters = [])
     {
@@ -64,6 +66,7 @@ class Application extends BaseClient
     /**
      * @param Metadata $metadata
      * @return mixed
+     * @throws  ClientException
      */
     public function createGroup(Metadata $metadata)
     {
@@ -75,6 +78,7 @@ class Application extends BaseClient
     /**
      * @param string $group_id
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function updateGroup(string $group_id)
     {
@@ -84,6 +88,7 @@ class Application extends BaseClient
     /**
      * @param string $group_id
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function deleteGroup(string $group_id)
     {
@@ -94,6 +99,7 @@ class Application extends BaseClient
      * @param string $group_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getGroupMembers(string $group_id, array $parameters = [])
     {
@@ -117,9 +123,12 @@ class Application extends BaseClient
     }
 
     /**
+     * join group
+     *
      * @param string $group_id
      * @param Metadata $metadata
      * @return mixed
+     * @throws ClientException
      */
     public function joinGroup(string $group_id, Metadata $metadata)
     {
@@ -133,6 +142,7 @@ class Application extends BaseClient
      * @param string $group_member_id
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function updateGroupMember(string $group_id, string $group_member_id, array $parameters)
     {
@@ -144,6 +154,7 @@ class Application extends BaseClient
      * @param string $group_member_id
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function deleteGroupMember(string $group_id, string $group_member_id, array $parameters)
     {
@@ -154,10 +165,11 @@ class Application extends BaseClient
      * @param string $group_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getGroupMemberWhiteLists(string $group_id, array $parameters = [])
     {
-        $data = $this->get("groups/$group_id/members/whitelist" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("groups/$group_id/members/whitelist/members" . "?" . $this->buildQuery($parameters));
 
         return $data;
     }
@@ -181,10 +193,11 @@ class Application extends BaseClient
      * @param string $group_id
      * @param Metadata $metadata
      * @return mixed
+     * @throws ClientException
      */
     public function createGroupMemberWhiteLists(string $group_id, Metadata $metadata)
     {
-        $data = $this->post("groups/$group_id/members/whitelist", $metadata);
+        $data = $this->post("groups/$group_id/members/whitelist/members", $metadata);
 
         return $data;
     }
@@ -194,6 +207,7 @@ class Application extends BaseClient
      * @param string $whitelist_id
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function updateGroupMemberWhiteLists(string $group_id, string $whitelist_id, array $parameters)
     {
@@ -205,6 +219,7 @@ class Application extends BaseClient
      * @param string $whitelist_id
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function deleteGroupMemberWhiteLists(string $group_id, string $whitelist_id, array $parameters)
     {
@@ -215,6 +230,7 @@ class Application extends BaseClient
      * @param string $group_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getGroupShares(string $group_id, array $parameters = [])
     {
@@ -241,6 +257,7 @@ class Application extends BaseClient
      * @param string $group_id
      * @param Metadata $metadata
      * @return mixed
+     * @throws ClientException
      */
     public function createShareToGroup(string $group_id, Metadata $metadata)
     {
@@ -253,6 +270,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function updateShare(string $share_id, array $parameters)
     {
@@ -263,6 +281,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function deleteShare(string $share_id, array $parameters)
     {
@@ -272,6 +291,7 @@ class Application extends BaseClient
     /**
      * @param string $group_id
      * @return mixed
+     * @throws ClientException
      */
     public function getGroupAvatarMetadata(string $group_id)
     {
@@ -283,6 +303,7 @@ class Application extends BaseClient
     /**
      * @param string $group_id
      * @return mixed
+     * @throws ClientException
      */
     public function getGroupAvatarRawImage(string $group_id)
     {

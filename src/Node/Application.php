@@ -2,6 +2,7 @@
 
 namespace Primas\Node;
 
+use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 
 /**
@@ -18,6 +19,7 @@ class Application extends BaseClient
      *
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getNodeLists(array $parameters = [])
     {

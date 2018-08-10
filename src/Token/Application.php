@@ -2,6 +2,7 @@
 
 namespace Primas\Token;
 
+use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
 use Primas\Kernel\Traits\MetadataTrait;
@@ -56,6 +57,7 @@ class Application extends BaseClient
     /**
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function getAccountTokensData()
     {
@@ -69,6 +71,7 @@ class Application extends BaseClient
      * @param array $parameters
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function getIncentivesList(array $parameters = [])
     {
@@ -82,6 +85,7 @@ class Application extends BaseClient
      * @param array $parameters
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function getIncentivesStatisticsList(array $parameters = [])
     {
@@ -96,6 +100,7 @@ class Application extends BaseClient
      * @param array $parameters
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function getIncentivesWithdrawalList(array $parameters = [])
     {
@@ -117,6 +122,7 @@ class Application extends BaseClient
      * @param Metadata $metadata
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function createIncentivesWithdrawal(Metadata $metadata)
     {
@@ -131,6 +137,7 @@ class Application extends BaseClient
      * @param array $parameters
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function getPreLockTokenList(array $parameters = [])
     {
@@ -144,6 +151,7 @@ class Application extends BaseClient
      * @param array $transaction
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function createPreLockTokens(array $transaction)
     {
@@ -157,6 +165,7 @@ class Application extends BaseClient
     /**
      * @param array $parameters
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function unlockPreLockTokens(array $parameters)
     {
@@ -167,6 +176,7 @@ class Application extends BaseClient
      * @param array $parameters
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
+     * @throws ClientException
      */
     public function getLockTokensList(array $parameters = [])
     {

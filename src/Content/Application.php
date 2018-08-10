@@ -2,6 +2,7 @@
 
 namespace Primas\Content;
 
+use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
 use Primas\Kernel\Exceptions\ParameterException;
@@ -29,6 +30,7 @@ class Application extends BaseClient
     /**
      * @param string $content_id
      * @return mixed
+     * @throws ClientException
      */
     public function getContent(string $content_id)
     {
@@ -40,6 +42,7 @@ class Application extends BaseClient
     /**
      * @param string $content_id
      * @return mixed
+     * @throws ClientException
      */
     public function getRawContent(string $content_id)
     {
@@ -74,6 +77,7 @@ class Application extends BaseClient
      * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
+     * @throws ClientException
      */
     public function createContent(Metadata $metadata)
     {
@@ -85,6 +89,7 @@ class Application extends BaseClient
     /**
      * @param string $content_id
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function updateContent(string $content_id)
     {

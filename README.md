@@ -29,7 +29,8 @@
 
 ### Install
 
-* composer require primas/node
+* 1、Use Git to clone the entire repository in the root folder, or export a zip of the repository and extract locally.
+* 2、composer require primas/node
 
 ### Quick Start
 * Note: the API configuration needs to be initialized before using the API method
@@ -90,7 +91,7 @@ $metadataJson = $app->buildCreateAccount($parameters);
 // TODO request signature machine get signature
 // If it is asynchronous, save the correspondence between the signature result and the application.
 
-$signature="";
+$signature="your signature from your signature machine";
 
 $metadata = $app->afterSign($metadataJson, $signature);
 

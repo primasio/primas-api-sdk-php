@@ -7,6 +7,17 @@ use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\Exceptions\ErrorConfigException;
 use Primas\Kernel\Support\Json;
 
+/**
+ * Class BaseClient
+ *
+ * @method  mixed               get(...$arguments)
+ * @method  mixed               post(...$arguments)
+ * @method  mixed               put(...$arguments)
+ * @method  mixed               delete(...$arguments)
+ * @throws  ClientException
+ *
+ * @package Primas\Kernel
+ */
 abstract class BaseClient
 {
     /**
@@ -76,7 +87,7 @@ abstract class BaseClient
         }
         if (isset($this->httpOptions['headers']) && isset($this->httpOptions['headers']['Content-Type'])) {
             if (!in_array($this->httpOptions['headers']['Content-Type'], ['application/json', 'multipart/form-data', 'application/x-www-form-urlencoded'])) {
-                throw new ErrorConfigException("{$this->httpOptions['headers']['Content-Type']} is not allowed!");
+                throw new ErrorConfigException("Content-Type:{$this->httpOptions['headers']['Content-Type']} is not allowed!");
             }
         }
         $this->httpClient = new Client($this->getHttpOptions());

@@ -2,6 +2,7 @@
 
 namespace Primas\ContentInteraction;
 
+use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
 use Primas\Kernel\Traits\MetadataTrait;
@@ -42,6 +43,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getShareMetadata(string $share_id, array $parameters = [])
     {
@@ -54,6 +56,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getSharesOfGroupShare(string $share_id, array $parameters = [])
     {
@@ -66,6 +69,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getShareReports(string $share_id, array $parameters = [])
     {
@@ -94,6 +98,7 @@ class Application extends BaseClient
      * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
+     * @throws ClientException
      */
     public function reportShare(string $share_id, Metadata $metadata)
     {
@@ -107,6 +112,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getLikesOfGroupShare(string $share_id, array $parameters = [])
     {
@@ -114,7 +120,6 @@ class Application extends BaseClient
 
         return $data;
     }
-
 
     /**
      * @param array $parameters
@@ -136,6 +141,7 @@ class Application extends BaseClient
      * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
+     * @throws ClientException
      */
     public function createLikeOfGroupShare(string $share_id, Metadata $metadata)
     {
@@ -148,6 +154,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param string $like_id
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function deleteLikeOfGroupShare(string $share_id, string $like_id)
     {
@@ -157,10 +164,11 @@ class Application extends BaseClient
     /**
      * @param string $comment_id
      * @return mixed
+     * @throws ClientException
      */
     public function getReplyCommentsOfComments(string $comment_id)
     {
-        $data = $this->get("comments/$comment_id/comments");
+        $data = $this->get("comments/$comment_id/reply");
 
         return $data;
     }
@@ -169,6 +177,7 @@ class Application extends BaseClient
      * @param string $comment_id
      * @param array $parameters
      * @return mixed
+     * @throws ClientException
      */
     public function getCommentsOfGroupShare(string $comment_id, array $parameters = [])
     {
@@ -197,6 +206,7 @@ class Application extends BaseClient
      * @param Metadata $metadata
      * @return mixed
      * @throws \Exception
+     * @throws ClientException
      */
     public function createCommentOfGroupShare(string $share_id, Metadata $metadata)
     {
@@ -209,6 +219,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param string $comment_id
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function updateCommentOfGroupShare(string $share_id, string $comment_id)
     {
@@ -219,6 +230,7 @@ class Application extends BaseClient
      * @param string $share_id
      * @param string $comment_id
      * @throws NotAllowException
+     * @throws ClientException
      */
     public function deleteCommentOfGroupShare(string $share_id, string $comment_id)
     {

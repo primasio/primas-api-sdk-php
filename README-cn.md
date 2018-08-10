@@ -94,7 +94,7 @@ $metadataJson = $app->buildCreateAccount($parameters);
 // TODO request signature machine get signature
 // If it is asynchronous, save the correspondence between the signature result and the application.
 
-$signature="";
+$signature="your signature from your signature machine";
 
 $metadata = $app->afterSign($metadataJson, $signature);
 

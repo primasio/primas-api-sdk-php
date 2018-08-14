@@ -5,6 +5,7 @@ namespace Primas\ContentInteraction;
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
+use Primas\Kernel\Support\Json;
 use Primas\Kernel\Traits\MetadataTrait;
 use Primas\Kernel\Types\Metadata;
 
@@ -49,7 +50,7 @@ class Application extends BaseClient
     {
         $data = $this->get("shares/$share_id" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -62,7 +63,7 @@ class Application extends BaseClient
     {
         $data = $this->get("shares/$share_id/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -73,9 +74,10 @@ class Application extends BaseClient
      */
     public function getShareReports(string $share_id, array $parameters = [])
     {
+        throw new NotAllowException("This method is not allowed in this version");
         $data = $this->get("shares/$share_id/reports?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -102,10 +104,10 @@ class Application extends BaseClient
      */
     public function reportShare(string $share_id, Metadata $metadata)
     {
-
+        throw new NotAllowException("This method is not allowed in this version");
         $data = $this->post("shares/$share_id/reports", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -118,7 +120,7 @@ class Application extends BaseClient
     {
         $data = $this->get("shares/$share_id/likes?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -147,7 +149,7 @@ class Application extends BaseClient
     {
         $data = $this->post("shares/$share_id/likes", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -170,7 +172,7 @@ class Application extends BaseClient
     {
         $data = $this->get("comments/$comment_id/reply");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -183,7 +185,7 @@ class Application extends BaseClient
     {
         $data = $this->get("shares/$comment_id/comments?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -212,7 +214,7 @@ class Application extends BaseClient
     {
         $data = $this->post("shares/$share_id/comments", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**

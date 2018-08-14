@@ -5,6 +5,7 @@ namespace Primas\Group;
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
+use Primas\Kernel\Support\Json;
 use Primas\Kernel\Traits\MetadataTrait;
 use Primas\Kernel\Types\Metadata;
 
@@ -36,6 +37,10 @@ class Application extends BaseClient
 
     const STATUS = 'created';
 
+    const PUT_STATUS='updated';
+
+    const DELETE_STATUS='deleted';
+
     /**
      * @param string $group_id
      * @param array $parameters
@@ -46,7 +51,7 @@ class Application extends BaseClient
     {
         $data = $this->get("groups/$group_id" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -72,7 +77,7 @@ class Application extends BaseClient
     {
         $data = $this->post("groups", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -105,7 +110,7 @@ class Application extends BaseClient
     {
         $data = $this->get("groups/$group_id/members" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -134,31 +139,63 @@ class Application extends BaseClient
     {
         $data = $this->post("groups/$group_id/members", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
+    }
+
+    /**
+     * @param array $parameters
+     * @return string
+     */
+    public function buildUpdateGroupMember(array $parameters){
+        $filters = [
+            "version" => self::DTCP_VERSION,
+            "type" => self::JOIN_GROUP_TYPE,
+            "tag" => self::JOIN_GROUP_TAG,
+            "status" => self::PUT_STATUS
+        ];
+        return $this->beforeSign($parameters,$filters);
     }
 
     /**
      * @param string $group_id
      * @param string $group_member_id
-     * @param array $parameters
-     * @throws NotAllowException
+     * @param Metadata $metadata
+     * @return mixed
      * @throws ClientException
      */
-    public function updateGroupMember(string $group_id, string $group_member_id, array $parameters)
+    public function updateGroupMember(string $group_id, string $group_member_id, Metadata $metadata)
     {
-        throw new NotAllowException("This method is not allowed in this version");
+        $data = $this->put("groups/{$group_id}/members/{$group_member_id}", $metadata);
+
+        return Json::json_decode($data,true);
+    }
+
+    /**
+     * @param array $parameters
+     * @return string
+     */
+    public function buildDeleteGroupMember(array $parameters){
+        $filters = [
+            "version" => self::DTCP_VERSION,
+            "type" => self::JOIN_GROUP_TYPE,
+            "tag" => self::JOIN_GROUP_TAG,
+            "status" => self::DELETE_STATUS
+        ];
+        return $this->beforeSign($parameters,$filters);
     }
 
     /**
      * @param string $group_id
      * @param string $group_member_id
-     * @param array $parameters
-     * @throws NotAllowException
+     * @param Metadata $metadata
+     * @return mixed
      * @throws ClientException
      */
-    public function deleteGroupMember(string $group_id, string $group_member_id, array $parameters)
+    public function deleteGroupMember(string $group_id, string $group_member_id, Metadata $metadata)
     {
-        throw new NotAllowException("This method is not allowed in this version");
+        $data = $this->delete("groups/{$group_id}/members/{$group_member_id}", $metadata);
+
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -171,7 +208,7 @@ class Application extends BaseClient
     {
         $data = $this->get("groups/$group_id/members/whitelist/members" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
 
@@ -199,7 +236,7 @@ class Application extends BaseClient
     {
         $data = $this->post("groups/$group_id/members/whitelist/members", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -236,7 +273,7 @@ class Application extends BaseClient
     {
         $data = $this->get("groups/$group_id/shares" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -263,7 +300,7 @@ class Application extends BaseClient
     {
         $data = $this->post("groups/$group_id/shares", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -297,12 +334,12 @@ class Application extends BaseClient
     {
         $data = $this->get("groups/$group_id/avatar");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
      * @param string $group_id
-     * @return mixed
+     * @return string
      * @throws ClientException
      */
     public function getGroupAvatarRawImage(string $group_id)

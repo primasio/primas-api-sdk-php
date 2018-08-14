@@ -43,7 +43,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/metadata");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -58,7 +58,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/metadata");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -90,7 +90,7 @@ class Application extends BaseClient
         if (isset($result["result_code"]) && $result["result_code"] === Code::OK && isset($result["data"])) {
             $this->setAccountId($result["data"]["id"]);
         }
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -115,7 +115,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/credits");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -130,7 +130,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/credits");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -143,7 +143,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/content?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -157,7 +157,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/content?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -170,7 +170,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/groups?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -184,7 +184,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/groups?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
 
@@ -198,7 +198,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
 
@@ -213,7 +213,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -227,7 +227,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/groups/$groupId/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -242,7 +242,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/groups/$groupId/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -255,7 +255,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/likes?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -269,7 +269,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/likes?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -282,7 +282,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/comments?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -296,7 +296,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/comments?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -309,7 +309,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/applications/groups?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -323,7 +323,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/applications/groups?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -336,7 +336,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/applications/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -350,7 +350,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/applications/shares?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -363,7 +363,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/reports?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -377,7 +377,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/reports?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -390,7 +390,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/notifications?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -404,7 +404,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/notifications?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -417,7 +417,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/avatar?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -431,12 +431,12 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/sub/$subId/avatar?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
      * @param array $parameters
-     * @return mixed
+     * @return string
      * @throws ErrorConfigException
      */
     public function getAccountAvatarRaw(array $parameters = [])
@@ -450,7 +450,7 @@ class Application extends BaseClient
     /**
      * @param string $subId
      * @param array $parameters
-     * @return mixed
+     * @return string
      * @throws ErrorConfigException
      */
     public function getSubAccountAvatarRaw(string $subId, array $parameters = [])

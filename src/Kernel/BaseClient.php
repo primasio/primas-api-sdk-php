@@ -98,7 +98,7 @@ abstract class BaseClient
      * @param $function
      * @param $arguments
      * @throws ClientException
-     * @return mixed
+     * @return string
      */
     public function __call($function, $arguments)
     {
@@ -108,24 +108,28 @@ abstract class BaseClient
             case "delete":
                 if (isset($arguments[1])) {
                     $content_type = $this->getHttpOptions()["headers"]["Content-Type"];
-                    if ($content_type === 'application/json') {
-                        $arguments[1] = [
-                            "body" => $arguments[1]->toJson()
-                        ];
-                    } elseif ($content_type === 'application/x-www-form-urlencoded') {
-                        $arguments[1] = [
-                            "form_params" => $arguments[1]->toFormParms()
-                        ];
-                    } else {
-                        $arguments[1] = [
-                            "multipart" => $arguments[1]->toMultipart()
-                        ];
+                    switch ($content_type) {
+                        case "application/json":
+                            $arguments[1] = [
+                                "body" => $arguments[1]->toJson()
+                            ];
+                            break;
+                        case "application/x-www-form-urlencoded":
+                            $arguments[1] = [
+                                "form_params" => $arguments[1]->toFormParams()
+                            ];
+                            break;
+                        case "multipart/form-data":
+                            $arguments[1] = [
+                                "multipart" => $arguments[1]->toMultipart()
+                            ];
+                            break;
                     }
                 }
                 break;
         }
         $response = $this->httpClient->$function(...$arguments);
         $content = $response->getBody()->getContents();
-        return Json::json_decode($content, true);
+        return $content;
     }
 }

@@ -1,8 +1,13 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
+include __DIR__ . "/../vendor/autoload.php";
+include "TestBase.php";
 
-define("BASE_URI","http://10.0.0.63:8080");
+$URI="http://10.0.0.5:8080";
+//$URI="";
+
+define("BASE_URI",$URI);
+
 $keyStorePath = __DIR__ . "/keystone";
 $keyStore = file_get_contents($keyStorePath);
 $password = "Test123:::";

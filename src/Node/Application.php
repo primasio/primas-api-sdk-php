@@ -4,6 +4,7 @@ namespace Primas\Node;
 
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
+use Primas\Kernel\Support\Json;
 
 /**
  * Node APIs
@@ -25,7 +26,7 @@ class Application extends BaseClient
     {
         $data = $this->get("nodes" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**

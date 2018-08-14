@@ -162,7 +162,11 @@ $config = [
     "http_options" => [
         "base_uri" => BASE_URI,   // default  https://rigel-a.primas.network
         "headers"  =>  [
-            "Content-Type" => "application/json"     // default application/json
+             /*
+              * default application/json
+              * when Content-Type is multipart/form-data,if you want to post a file,the file field should be a file path like "F:/tmp/test.png" or an object instance CURLFile
+              */
+            "Content-Type" => "application/json"     //
              // ...
         ],
     ],
@@ -173,6 +177,7 @@ $config = [
 ];
 
 ```
+
 
 ### API List
 

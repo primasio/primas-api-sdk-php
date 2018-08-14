@@ -5,6 +5,7 @@ namespace Primas\Token;
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
+use Primas\Kernel\Support\Json;
 use Primas\Kernel\Traits\MetadataTrait;
 use Primas\Kernel\Types\Metadata;
 
@@ -64,7 +65,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -78,7 +79,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/incentives" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -92,7 +93,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/incentives/stats" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
 
@@ -107,15 +108,16 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/incentives/withdrawal" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
      * @param array $parameters
+     * @return string
      */
     public function buildCreateIncentivesWithdrawal(array $parameters)
     {
-        $this->beforeSign($parameters);
+        return $this->beforeSign($parameters);
     }
 
     /**
@@ -129,7 +131,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->post("accounts/$account_id/tokens/incentives/withdrawal", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
 
@@ -144,7 +146,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/pre_locks" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -159,7 +161,7 @@ class Application extends BaseClient
         $metadata = Metadata::init($transaction);
         $data = $this->post("accounts/$account_id/tokens/pre_locks", $metadata);
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**
@@ -183,7 +185,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/locks" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**

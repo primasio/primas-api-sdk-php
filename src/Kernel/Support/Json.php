@@ -50,8 +50,11 @@ class Json
                     $str .= $value; // Numbers
                 } elseif (is_numeric($value) && ctype_digit($value) && gmp_cmp(gmp_abs($value), PHP_INT_MAX) > 0) {
                     $str .= $value; // Big Numbers
+                } elseif (self::isJson($value)) {
+                    $str .= $value;  // json
                 } else {
-                    $str .= '"' . addcslashes($value, "\\\"\n\r\t/") . '"'; //All other things
+                    // $str .= '"' . addcslashes($value, "\\\"\n\r\t/") . '"'; //All other things
+                    $str .= '"' . addcslashes($value, "\\\"\n\r\t") . '"';
                 }
                 // :TODO: Is there any more datatype we should be in the lookout for? (Object?)
                 $parts [] = $str;
@@ -73,5 +76,14 @@ class Json
     public static function json_decode(string $json, bool $assoc = false, int $depth = 512, int $options = JSON_BIGINT_AS_STRING)
     {
         return json_decode($json, $assoc, $depth, $options);
+    }
+
+    /**
+     * @param string $string
+     * @return bool
+     */
+    protected function isJson(string $string)
+    {
+        return is_object(json_decode($string));
     }
 }

@@ -34,14 +34,46 @@ class Metadata implements MetadataContract
      */
     public function toMultipart(): array
     {
-        $multipart = [];
-        foreach ($this->data as $k => $v) {
-            $multipart[] = [
-                "name" => $k,
-                "contents" => $v
+        return $this->createMultipart($this->data);
+    }
+
+    /**
+     * @param array $parameters
+     * @param string $prefix
+     * @return array
+     */
+    protected function createMultipart(array $parameters, $prefix = '')
+    {
+        $return = [];
+        foreach ($parameters as $name => $value) {
+            $item = [
+                'name' => empty($prefix) ? $name : "{$prefix}[{$name}]",
             ];
+            switch (true) {
+                case (is_object($value) && ($value instanceof \CURLFile)):
+                    $item['contents'] = fopen($value->getFilename(), 'r');
+                    if ($value->getPostFilename()) {
+                        $item['filename'] = $value->getPostFilename();
+                    }
+                    if ($value->getMimeType()) {
+                        $item['headers'] = [
+                            'content-type' => $value->getMimeType(),
+                        ];
+                    }
+                    break;
+                case (is_string($value) && is_file($value)):
+                    $item['contents'] = fopen($value, 'r');
+                    break;
+                case is_array($value):
+                    $return = array_merge($return, self::createMultipart($value, $item['name']));
+                    continue 2;
+                default:
+                    $item['contents'] = $value;
+            }
+            $return[] = $item;
         }
-        return $multipart;
+
+        return $return;
     }
 
     /**

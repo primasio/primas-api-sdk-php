@@ -4,6 +4,7 @@ namespace Primas\System;
 
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
+use Primas\Kernel\Support\Json;
 
 /**
  * System  APIs
@@ -17,15 +18,14 @@ class Application extends BaseClient
     /**
      * Get system parameters
      *
-     * @param array $parameters
      * @return mixed
      * @throws ClientException
      */
-    public function getSystemParameters(array $parameters)
+    public function getSystemParameters()
     {
-        $data = $this->get("system" . "?" . $this->buildQuery($parameters));
+        $data = $this->get("system");
 
-        return $data;
+        return Json::json_decode($data,true);
     }
 
     /**

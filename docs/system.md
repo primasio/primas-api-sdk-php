@@ -14,6 +14,6 @@ $config = [
 
 $app = \Primas\Factory::system($config);
 
-$app->getSystemParameters(array $parameters);
+$app->getSystemParameters();
 
 ```

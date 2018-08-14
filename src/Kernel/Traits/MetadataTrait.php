@@ -5,6 +5,7 @@ namespace Primas\Kernel\Traits;
 use Primas\Kernel\Crypto\Keccak;
 use Primas\Kernel\Crypto\Signature;
 use Primas\Kernel\Eth\Keystore;
+use Primas\Kernel\Exceptions\ParameterException;
 use Primas\Kernel\Support\Arr;
 use Primas\Kernel\Support\Json;
 use Primas\Kernel\Types\Byte;
@@ -31,7 +32,7 @@ trait MetadataTrait
      * @param array $data
      * @return array
      */
-    private function removeFields(array $data): array
+    protected function removeFields(array $data): array
     {
         $removeFields = ['signature'];
         foreach ($removeFields as $field) {
@@ -50,6 +51,7 @@ trait MetadataTrait
         $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
         $metadata = Arr::ksort($metadata);
         $metadataJson = Json::json_encode($metadata);
+        echo $metadataJson.PHP_EOL;
         return $metadataJson;
     }
 
@@ -60,7 +62,7 @@ trait MetadataTrait
      */
     public function sign(string $metadataJson): string
     {
-        $signature = Signature::sign(Byte::initWithHex(Keccak::hash($metadataJson, 256), Keystore::getPrivateKey()))->getHex();
+        $signature = Signature::sign(Byte::initWithHex(Keccak::hash($metadataJson, 256)), Keystore::getPrivateKey())->getHex();
         return $signature;
     }
 
@@ -74,5 +76,18 @@ trait MetadataTrait
         $metadata = Json::json_decode($metadataJson, true);
         $metadata["signature"] = $signature;
         return Metadata::init($metadata);
+    }
+
+    /**
+     * @param array $parameters
+     * @param array $items
+     * @throws ParameterException
+     */
+    public function checkParameters(array $parameters,array $items){
+        foreach ($items as $item){
+            if(!isset($parameters[$item])){
+                throw new ParameterException("The field {$item} must exists!");
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Primas\Query;
 
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
+use Primas\Kernel\Support\Json;
 
 /**
  * Query APIs
@@ -25,7 +26,31 @@ class Application extends BaseClient
     {
         $data = $this->get("query" . "?" . $this->buildQuery($parameters));
 
-        return $data;
+        return Json::json_decode($data, true);
+    }
+
+    /**
+     * @param array $parameters
+     * @return mixed
+     * @throws ClientException
+     */
+    public function queryContent(array $parameters = [])
+    {
+        $data = $this->get("query/content" . "?" . $this->buildQuery($parameters));
+
+        return Json::json_decode($data, true);
+    }
+
+    /**
+     * @param array $parameters
+     * @return mixed
+     * @throws ClientException
+     */
+    public function queryReproductions(array $parameters)
+    {
+        $data = $this->get("query/reproductions" . "?" . $this->buildQuery($parameters));
+
+        return Json::json_decode($data, true);
     }
 
     /**

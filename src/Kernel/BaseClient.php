@@ -5,6 +5,7 @@ namespace Primas\Kernel;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\Exceptions\ErrorConfigException;
+use Primas\Kernel\Exceptions\ParameterException;
 use Primas\Kernel\Support\Json;
 
 /**
@@ -131,5 +132,18 @@ abstract class BaseClient
         $response = $this->httpClient->$function(...$arguments);
         $content = $response->getBody()->getContents();
         return $content;
+    }
+
+    /**
+     * @param array $parameters
+     * @param array $items
+     * @throws ParameterException
+     */
+    public function checkParameters(array $parameters,array $items){
+        foreach ($items as $item){
+            if(!isset($parameters[$item])){
+                throw new ParameterException("The field {$item} must exists!");
+            }
+        }
     }
 }

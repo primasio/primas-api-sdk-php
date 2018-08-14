@@ -5,7 +5,6 @@ namespace Primas\Kernel\Traits;
 use Primas\Kernel\Crypto\Keccak;
 use Primas\Kernel\Crypto\Signature;
 use Primas\Kernel\Eth\Keystore;
-use Primas\Kernel\Exceptions\ParameterException;
 use Primas\Kernel\Support\Arr;
 use Primas\Kernel\Support\Json;
 use Primas\Kernel\Types\Byte;
@@ -78,16 +77,4 @@ trait MetadataTrait
         return Metadata::init($metadata);
     }
 
-    /**
-     * @param array $parameters
-     * @param array $items
-     * @throws ParameterException
-     */
-    public function checkParameters(array $parameters,array $items){
-        foreach ($items as $item){
-            if(!isset($parameters[$item])){
-                throw new ParameterException("The field {$item} must exists!");
-            }
-        }
-    }
 }

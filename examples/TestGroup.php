@@ -56,10 +56,10 @@ class TestGroup extends TestBase
             ]),
             "dest_id" => $group_id,
             "created" => time(),
-           /* "extra" => json_encode([
+            "extra" => json_encode([
                 "application_status" => "pending",
-                "application_expire" => time()
-            ])*/
+                "application_expire" => 7200   // unit : second
+            ])
         ];
         $metadataJson = $this->app->buildJoinGroup($parameters);
         $signature = $this->app->sign($metadataJson);

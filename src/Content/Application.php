@@ -100,6 +100,9 @@ class Application extends BaseClient
     public function createContent(Metadata $metadata, array $parameters)
     {
         $metadataArr = $metadata->toFormParams();
+        if(!isset($parameters["content"])){
+            throw new ParameterException("The field content must exists!");
+        }
         $metadataArr["content"] = $parameters["content"];
         $content_type = $this->getHttpOptions()["headers"]["Content-Type"];
         switch ($content_type) {

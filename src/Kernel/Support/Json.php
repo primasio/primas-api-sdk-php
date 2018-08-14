@@ -82,8 +82,12 @@ class Json
      * @param string $string
      * @return bool
      */
-    protected function isJson(string $string)
+    protected function isJson(string &$string)
     {
-        return is_object(json_decode($string));
+        if (is_array($data = json_decode($string, true))) {
+            $string = json_encode(Arr::ksort($data));
+            return true;
+        }
+        return false;
     }
 }

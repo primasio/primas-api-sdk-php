@@ -85,7 +85,7 @@ class Json
     protected function isJson(string &$string)
     {
         if (is_array($data = json_decode($string, true))) {
-            $string = json_encode(Arr::ksort($data));
+            $string = self::json_encode(Arr::ksort($data));
             return true;
         }
         return false;

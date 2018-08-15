@@ -10,6 +10,12 @@ class TestToken extends TestBase
         $config = [
             "http_options" => [
                 "base_uri" => BASE_URI,
+                "headers" => [
+                   "Content-Type" => "application/x-www-form-urlencoded"
+               ]
+                /*"headers" => [
+                    "Content-Type" => "multipart/form-data"
+                ]*/
             ],
             "account_id" => $account_id
         ];
@@ -38,14 +44,14 @@ class TestToken extends TestBase
 
     public function testCreatePreLockTokens()
     {
-        $transaction = [
-            "id" => "",
-            "block_number" => 1,
-            "block_confirmations" => 1,
-            "estimated_time" => 1,
-            "confirmed_time" => time()
+        $parameters = [
+            "amount"=>"32192233720368547758075548440005" ,   // Pre lock amount ,php not support bigint type use string replace
+            "nonce" => "1",  // User operator nonce id
         ];
-        $data = $this->app->createPreLockTokens($transaction);
+        $metadataJson = $this->app->buildTransaction($parameters);
+        $sign = $this->app->sign($metadataJson);
+        $metadata = $this->app->afterSign($metadataJson, $sign);
+        $data = $this->app->createPreLockTokens($metadata);
         return $data;
     }
 

@@ -65,7 +65,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens");
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
     /**
@@ -79,7 +79,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/incentives" . "?" . $this->buildQuery($parameters));
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
     /**
@@ -93,7 +93,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/incentives/stats" . "?" . $this->buildQuery($parameters));
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
 
@@ -108,7 +108,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/incentives/withdrawal" . "?" . $this->buildQuery($parameters));
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
     /**
@@ -131,7 +131,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->post("accounts/$account_id/tokens/incentives/withdrawal", $metadata);
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
 
@@ -146,22 +146,57 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/pre_locks" . "?" . $this->buildQuery($parameters));
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
     /**
-     * @param array $transaction
+     * @param array $parameters
+     * @return string
+     */
+    public function buildTransaction(array $parameters)
+    {
+        return $this->beforeSign($parameters);
+    }
+
+    /**
+     * @param Metadata $metadata
      * @return mixed
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
      * @throws ClientException
      */
-    public function createPreLockTokens(array $transaction)
+    public function createPreLockTokens(Metadata $metadata)
     {
         $account_id = $this->getAccountId();
-        $metadata = Metadata::init($transaction);
-        $data = $this->post("accounts/$account_id/tokens/pre_locks", $metadata);
+        $parameters = [
+            "transaction" => $metadata->toJson()
+        ];
+        $content_type = $this->getHttpOptions()["headers"]["Content-Type"];
+        switch ($content_type) {
+            case "application/json":
+                $data = [
+                    "body" => json_encode($parameters)
+                ];
+                break;
+            case "application/x-www-form-urlencoded":
+                $data = [
+                    "form_params" => $parameters
+                ];
+                break;
+            case "multipart/form-data":
+                $data = [
+                    "multipart" => [
+                        [
+                            "name" => "transaction",
+                            "contents" => $parameters["transaction"]
+                        ]
+                    ]
+                ];
+                break;
+        }
+        $response = $this->httpClient->post("accounts/$account_id/tokens/pre_locks", $data);
+        $content = $response->getBody()->getContents();
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($content, true);
     }
 
     /**
@@ -185,7 +220,7 @@ class Application extends BaseClient
         $account_id = $this->getAccountId();
         $data = $this->get("accounts/$account_id/tokens/locks" . "?" . $this->buildQuery($parameters));
 
-        return Json::json_decode($data,true);
+        return Json::json_decode($data, true);
     }
 
     /**

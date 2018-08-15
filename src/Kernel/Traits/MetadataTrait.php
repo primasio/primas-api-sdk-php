@@ -50,7 +50,6 @@ trait MetadataTrait
         $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
         $metadata = Arr::ksort($metadata);
         $metadataJson = Json::json_encode($metadata);
-        echo $metadataJson.PHP_EOL;
         return $metadataJson;
     }
 

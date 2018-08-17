@@ -35,7 +35,7 @@ $metadataJson = $app->buildCreateGroup($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadata = $app->afterSign($metadataJson);
+$metadata = $app->setSignature($metadataJson);
 $app->createGroup($metadata);
 ```
 
@@ -67,7 +67,7 @@ $metadataJson = $app->buildJoinGroup($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadata = $app->afterSign($metadataJson);
+$metadata = $app->setSignature($metadataJson);
 $app->joinGroup(string $group_id,$metadata);
 
 ```
@@ -101,7 +101,7 @@ $metadataJson = $app->buildCreateGroupMemberWhiteLists($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadata = $app->afterSign($metadataJson);
+$metadata = $app->setSignature($metadataJson);
 $app->createGroupMemberWhiteLists(string $group_id,$metadata);
 
 ```
@@ -135,7 +135,7 @@ $metadataJson = $app->buildCreateShareToGroup($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadata = $app->afterSign($metadataJson);
+$metadata = $app->setSignature($metadataJson);
 $app->createShareToGroup(string $group_id,$metadata);
 
 ```

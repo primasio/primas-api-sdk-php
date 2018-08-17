@@ -28,7 +28,7 @@ class TestAccount extends TestBase
         ];
         $metadataJson = $this->app->buildCreateAccount($parameters);
         $sign = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $sign);
+        $metadata = $this->app->setSignature($metadataJson, $sign);
         // every keystore only can create one root account
         $res = $this->app->createAccount($metadata);
         if (isset($res["result_code"]) && $res["result_code"] == \Primas\Kernel\Code::OK) {
@@ -49,7 +49,7 @@ class TestAccount extends TestBase
         ];
         $metadataJson = $this->app->buildCreateAccount($parameters);
         $sign = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $sign);
+        $metadata = $this->app->setSignature($metadataJson, $sign);
         // every keystore only can create one root account
         $res = $this->app->createAccount($metadata);
         return $res;

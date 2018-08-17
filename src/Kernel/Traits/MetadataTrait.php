@@ -45,7 +45,7 @@ trait MetadataTrait
      * @param array $filters
      * @return string
      */
-    protected function beforeSign(array $data, array $filters = []): string
+    protected function getRawMetadata(array $data, array $filters = []): string
     {
         $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
         $metadata = Arr::ksort($metadata);
@@ -69,7 +69,7 @@ trait MetadataTrait
      * @param string $signature
      * @return Metadata
      */
-    public function afterSign(string $metadataJson, string $signature) : Metadata
+    public function setSignature(string $metadataJson, string $signature) : Metadata
     {
         $metadata = Json::json_decode($metadataJson, true);
         $metadata["signature"] = $signature;

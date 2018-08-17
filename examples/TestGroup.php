@@ -35,7 +35,7 @@ class TestGroup extends TestBase
         ];
         $metadataJson = $this->app->buildCreateGroup($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $data = $this->app->createGroup($metadata);
         return $data;
     }
@@ -63,7 +63,7 @@ class TestGroup extends TestBase
         ];
         $metadataJson = $this->app->buildJoinGroup($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $data = $this->app->joinGroup($group_id,$metadata);
         return $data;
     }
@@ -82,7 +82,7 @@ class TestGroup extends TestBase
         ];
         $metadataJson = $this->app->buildUpdateGroupMember($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $data = $this->app->updateGroupMember($group_id,$group_member_id,$metadata);
         return $data;
     }
@@ -98,7 +98,7 @@ class TestGroup extends TestBase
         ];
         $metadataJson = $this->app->buildDeleteGroupMember($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $data = $this->app->deleteGroupMember($group_id,$group_member_id,$metadata);
         return $data;
     }

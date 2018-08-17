@@ -43,7 +43,7 @@ class TestContent extends TestBase {
         ];
         $metadataJson = $this->app->buildCreateContent($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $parameters["content"] = $content;
         $createRes = $this->app->createContent($metadata,$parameters);
         return $createRes;
@@ -81,7 +81,7 @@ class TestContent extends TestBase {
         ];
         $metadataJson = $this->app->buildCreateContent($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         // when Content-Type:application/json or application/x-www-form-urlencoded
         $parameters["content"] = $content;
         /*

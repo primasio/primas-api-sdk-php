@@ -37,7 +37,7 @@ class TestToken extends TestBase
         ];
         $metadataJson = $this->app->buildCreateIncentivesWithdrawal($parameters);
         $sign = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $sign);
+        $metadata = $this->app->setSignature($metadataJson, $sign);
         $data = $this->app->createIncentivesWithdrawal($metadata);
         return $data;
     }
@@ -50,7 +50,7 @@ class TestToken extends TestBase
         ];
         $metadataJson = $this->app->buildTransaction($parameters);
         $sign = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $sign);
+        $metadata = $this->app->setSignature($metadataJson, $sign);
         $data = $this->app->createPreLockTokens($metadata);
         return $data;
     }

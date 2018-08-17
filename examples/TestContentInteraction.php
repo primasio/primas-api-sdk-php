@@ -62,7 +62,7 @@ class TestContentInteraction extends TestBase
         ];
         $metadataJson = $this->app->buildCreateLikeOfGroupShare($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $createLikeOfGroupShare = $this->app->createLikeOfGroupShare($share_id, $metadata);
         return $createLikeOfGroupShare;
     }
@@ -83,7 +83,7 @@ class TestContentInteraction extends TestBase
         ];
         $metadataJson = $this->app->buildCreateCommentOfGroupShare($parameters);
         $signature = $this->app->sign($metadataJson);
-        $metadata = $this->app->afterSign($metadataJson, $signature);
+        $metadata = $this->app->setSignature($metadataJson, $signature);
         $createCommentOfGroupShare = $this->app->createCommentOfGroupShare($share_id, $metadata);
         return $createCommentOfGroupShare;
     }

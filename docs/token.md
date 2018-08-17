@@ -61,7 +61,7 @@ $metadataJson = $app->buildCreateIncentivesWithdrawal($parameters);
 $signature = $app->sign($metadataJson);
 // with signature machine
 $signature = "your signature from signature machin";
-$metadata = $app->afterSign($metadataJson);
+$metadata = $app->setSignature($metadataJson);
 $app->createIncentivesWithdrawal($metadata);
 
 ```
@@ -81,7 +81,16 @@ $app->getPreLockTokenList(array $parameters = []);
 
 ```php
 
-$app->createPreLockTokens(array $transaction);
+// transaction
+ $parameters = [
+     "amount"=>"32192233720368547758075548440005" ,   // Pre lock amount ,php not support bigint type use string replace
+     "nonce" => "1",  // User operator nonce id
+];
+ $metadataJson = $app->buildTransaction($parameters);
+ $sign = $appsign($metadataJson);
+ $metadata = $app->setSignature($metadataJson, $sign);
+ $data = $app->createPreLockTokens($metadata);
+
 
 ```
 

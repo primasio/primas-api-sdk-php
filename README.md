@@ -70,7 +70,7 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature = $app->sign($metadataJson);
 
-$metadata = $app->afterSign($metadataJson, $signature);
+$metadata = $app->setSignature($metadataJson, $signature);
 
 $res = $account->createAccount($metadata);
 
@@ -93,7 +93,7 @@ $metadataJson = $app->buildCreateAccount($parameters);
 
 $signature="your signature from your signature machine";
 
-$metadata = $app->afterSign($metadataJson, $signature);
+$metadata = $app->setSignature($metadataJson, $signature);
 
 $res = $account->createAccount($metadata);
 

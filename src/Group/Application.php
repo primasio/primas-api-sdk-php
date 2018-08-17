@@ -65,7 +65,7 @@ class Application extends BaseClient
             "tag" => self::CREATE_GROUP_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters,$filters);
+        return $this->getRawMetadata($parameters,$filters);
 }
 
     /**
@@ -124,7 +124,7 @@ class Application extends BaseClient
             "tag" => self::JOIN_GROUP_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters,$filters);
+        return $this->getRawMetadata($parameters,$filters);
     }
 
     /**
@@ -153,7 +153,7 @@ class Application extends BaseClient
             "tag" => self::JOIN_GROUP_TAG,
             "status" => self::PUT_STATUS
         ];
-        return $this->beforeSign($parameters,$filters);
+        return $this->getRawMetadata($parameters,$filters);
     }
 
     /**
@@ -181,7 +181,7 @@ class Application extends BaseClient
             "tag" => self::JOIN_GROUP_TAG,
             "status" => self::DELETE_STATUS
         ];
-        return $this->beforeSign($parameters,$filters);
+        return $this->getRawMetadata($parameters,$filters);
     }
 
     /**
@@ -223,7 +223,7 @@ class Application extends BaseClient
             "tag" => self::WHITE_GROUP_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters,$filters);
+        return $this->getRawMetadata($parameters,$filters);
     }
 
     /**
@@ -287,7 +287,7 @@ class Application extends BaseClient
             "tag" => self::SHARE_GROUP_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters,$filters);
+        return $this->getRawMetadata($parameters,$filters);
     }
 
     /**

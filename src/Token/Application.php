@@ -117,7 +117,7 @@ class Application extends BaseClient
      */
     public function buildCreateIncentivesWithdrawal(array $parameters)
     {
-        return $this->beforeSign($parameters);
+        return $this->getRawMetadata($parameters);
     }
 
     /**
@@ -155,7 +155,7 @@ class Application extends BaseClient
      */
     public function buildTransaction(array $parameters)
     {
-        return $this->beforeSign($parameters);
+        return $this->getRawMetadata($parameters);
     }
 
     /**

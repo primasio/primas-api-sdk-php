@@ -72,7 +72,7 @@ class Application extends BaseClient
                 throw new ParameterException("The field content must be a file path or an object instance CURLFile when you use Content-Type:multipart/form-data !");
             }
         }
-        return $this->beforeSign($parameters, $filters);
+        return $this->getRawMetadata($parameters, $filters);
     }
 
     /**

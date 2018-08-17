@@ -92,7 +92,7 @@ class Application extends BaseClient
             "tag" => self::REPORT_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters, $filters);
+        return $this->getRawMetadata($parameters, $filters);
     }
 
     /**
@@ -135,7 +135,7 @@ class Application extends BaseClient
             "tag" => self::LIKE_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters, $filters);
+        return $this->getRawMetadata($parameters, $filters);
     }
 
     /**
@@ -200,7 +200,7 @@ class Application extends BaseClient
             "tag" => self::COMMENT_TAG,
             "status" => self::STATUS
         ];
-        return $this->beforeSign($parameters, $filters);
+        return $this->getRawMetadata($parameters, $filters);
     }
 
     /**

@@ -73,7 +73,7 @@ class Application extends BaseClient
             "tag" => self::TAG,
             "status" => self::CREATED_STATUS
         ];
-        return $this->beforeSign($parameters, $filters);
+        return $this->getRawMetadata($parameters, $filters);
     }
 
     /**

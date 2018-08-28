@@ -1,6 +1,6 @@
 <?php
 
-include  "init.php";
+include "init.php";
 
 /*
  *  getShareReports &reportShare method not allowed in this version
@@ -59,6 +59,7 @@ class TestContentInteraction extends TestBase
                 "account_id" => $this->account_id
             ]),
             "created" => time(),
+            "hp" => 120
         ];
         $metadataJson = $this->app->buildCreateLikeOfGroupShare($parameters);
         $signature = $this->app->sign($metadataJson);
@@ -79,7 +80,8 @@ class TestContentInteraction extends TestBase
             "extra" => json_encode([
                 "content" => "test",
                 "content_hash" => \Primas\Kernel\Crypto\Keccak::hash("test")
-            ])
+            ]),
+            "hp" => 120
         ];
         $metadataJson = $this->app->buildCreateCommentOfGroupShare($parameters);
         $signature = $this->app->sign($metadataJson);
@@ -94,20 +96,31 @@ class TestContentInteraction extends TestBase
      * @param $comment_id
      * @return mixed
      */
-    public function testGetReplyCommentsOfComments($comment_id){
+    public function testGetReplyCommentsOfComments($comment_id)
+    {
         $getReplyCommentsOfComments = $this->app->getReplyCommentsOfComments($comment_id);
         return $getReplyCommentsOfComments;
     }
 
-    public function testGetCommentsOfGroupShare($comment_id){
+    public function testGetCommentsOfGroupShare($comment_id)
+    {
         $data = $this->app->getCommentsOfGroupShare($comment_id);
         return $data;
     }
 
 }
 
-$app=new TestContentInteraction();
+$app = new TestContentInteraction();
+
+$share_id="991aa206959a24d98da165f94c5cfe078713e56dd7e68ee7e4a598d33a8d19d2";
+$share=$app->testGetShareMetadata($share_id);
+
+//$res=$app->testCreateLikeOfGroupShare($share_id);
+
+$res=$app->testGetSharesOfGroupShare($share_id);
+
+var_dump($res);
 // you can get comment_id from testCreateCommentOfGroupShare
-$comment_id="6a23275377688c96b25aee06c26d0fa1ba946e7afe81a0b33160598fe047c110";
-$res=$app->testGetCommentsOfGroupShare($comment_id);
+$comment_id = "6a23275377688c96b25aee06c26d0fa1ba946e7afe81a0b33160598fe047c110";
+$res = $app->testGetCommentsOfGroupShare($comment_id);
 var_dump($res);

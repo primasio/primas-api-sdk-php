@@ -67,4 +67,14 @@ class TestAccount extends TestBase
         return $this->app->getAccountCreditsList();
     }
 
+    public function testGetAddressMetadata($address=''){
+        if(!$address){
+            $address=\Primas\Kernel\Eth\Keystore::getAddress();
+        }
+        return $this->app->getAddressMetadata($address);
+    }
+
 }
+
+$app=new TestAccount();
+var_dump($app->testGetAddressMetadata());

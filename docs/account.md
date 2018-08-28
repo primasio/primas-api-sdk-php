@@ -307,3 +307,14 @@ $app->getAccountAvatarRaw(array $parameters = []);
 $app->getSubAccountAvatarRaw(string $subId , array $parameters = []);
 
 ```
+
+### 17. Get address metadata
+
+```php
+
+$app = \Primas\Factory::account($config);
+
+$app->getAddressMetadata(string $address);
+
+
+```

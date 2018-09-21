@@ -18,9 +18,9 @@ class TestContentInteraction extends TestBase
         ];
         $this->app = \Primas\Factory::content_interaction($config);
         // You can use the account_id of the account you created
-        $this->account_id = "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3";
+        $this->account_id = "e89c51db3e8b1130944a1d98308ec101d0c01cce3407e2d3d5d71e7f19e5dea9";
         // you can get share_id by share to a group
-        $this->share_id = "991aa206959a24d98da165f94c5cfe078713e56dd7e68ee7e4a598d33a8d19d2";
+        $this->share_id = "4953d9efc70c9814be331680c843b90997713f3043b7b9069e9fb721e8728502";
     }
 
     public function testGetShareMetadata($share_id)
@@ -59,7 +59,7 @@ class TestContentInteraction extends TestBase
                 "account_id" => $this->account_id
             ]),
             "created" => time(),
-            "hp" => 120
+            "hp" => 5
         ];
         $metadataJson = $this->app->buildCreateLikeOfGroupShare($parameters);
         $signature = $this->app->sign($metadataJson);
@@ -68,7 +68,7 @@ class TestContentInteraction extends TestBase
         return $createLikeOfGroupShare;
     }
 
-    public function testCreateCommentOfGroupShare($share_id)
+    public function testCreateCommentOfGroupShare($share_id,$comment_id="")
     {
         $parameters = [
             "src_id" => $this->account_id,
@@ -77,11 +77,12 @@ class TestContentInteraction extends TestBase
                 "account_id" => $this->account_id
             ]),
             "created" => time(),
-            "extra" => json_encode([
+            "extra" => [
+                "parent_comment_id"=>$comment_id,
                 "content" => "test",
                 "content_hash" => \Primas\Kernel\Crypto\Keccak::hash("test")
-            ]),
-            "hp" => 120
+            ],
+            "hp" => 2
         ];
         $metadataJson = $this->app->buildCreateCommentOfGroupShare($parameters);
         $signature = $this->app->sign($metadataJson);
@@ -102,9 +103,9 @@ class TestContentInteraction extends TestBase
         return $getReplyCommentsOfComments;
     }
 
-    public function testGetCommentsOfGroupShare($comment_id)
+    public function testGetCommentsOfGroupShare($share_id)
     {
-        $data = $this->app->getCommentsOfGroupShare($comment_id);
+        $data = $this->app->getCommentsOfGroupShare($share_id);
         return $data;
     }
 
@@ -112,15 +113,28 @@ class TestContentInteraction extends TestBase
 
 $app = new TestContentInteraction();
 
-$share_id="991aa206959a24d98da165f94c5cfe078713e56dd7e68ee7e4a598d33a8d19d2";
-$share=$app->testGetShareMetadata($share_id);
+$share_id =  '4953d9efc70c9814be331680c843b90997713f3043b7b9069e9fb721e8728502';
 
-//$res=$app->testCreateLikeOfGroupShare($share_id);
+$data = $app->testGetCommentsOfGroupShare($share_id);
+var_dump($data);exit;
 
-$res=$app->testGetSharesOfGroupShare($share_id);
+//$share=$app->testGetShareMetadata($share_id);
 
-var_dump($res);
-// you can get comment_id from testCreateCommentOfGroupShare
-$comment_id = "6a23275377688c96b25aee06c26d0fa1ba946e7afe81a0b33160598fe047c110";
-$res = $app->testGetCommentsOfGroupShare($comment_id);
-var_dump($res);
+/*$data=$app->testCreateLikeOfGroupShare($share_id);
+var_dump($data);*/
+
+
+/*$data=$app->testCreateCommentOfGroupShare($share_id);
+var_dump($data);*/
+
+/*
+ * comment_id   03827169fe5c4e106da0b612ce26f4fecc3138af065a1fa221f28f2710c231c3
+ * comment_dna  642385f8a48afb2203961c83e60a93bb5bd856498bd4b4d8f75cdd0de141c755
+ */
+
+
+$comment_id = "03827169fe5c4e106da0b612ce26f4fecc3138af065a1fa221f28f2710c231c3";
+$data=$app->testCreateCommentOfGroupShare($share_id,$comment_id);
+var_dump($data);
+
+

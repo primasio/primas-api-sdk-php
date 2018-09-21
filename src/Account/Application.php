@@ -88,7 +88,7 @@ class Application extends BaseClient
     {
         $data = $this->post("accounts", $metadata);
         $result = Json::json_decode($data, true);
-        if (isset($result["result_code"]) && $result["result_code"] === Code::OK && isset($result["data"])) {
+        if (isset($result["result_code"]) && $result["result_code"] === Code::OK && isset($result["data"]["id"])) {
             $this->setAccountId($result["data"]["id"]);
         }
         return Json::json_decode($data, true);

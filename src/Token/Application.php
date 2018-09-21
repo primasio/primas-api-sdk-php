@@ -5,9 +5,13 @@ namespace Primas\Token;
 use GuzzleHttp\Exception\ClientException;
 use Primas\Kernel\BaseClient;
 use Primas\Kernel\Exceptions\NotAllowException;
+use Primas\Kernel\Exceptions\ParameterException;
 use Primas\Kernel\Support\Json;
 use Primas\Kernel\Traits\MetadataTrait;
+use Primas\Kernel\Types\Buffer;
+use Primas\Kernel\Types\Byte;
 use Primas\Kernel\Types\Metadata;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Token APIs
@@ -152,34 +156,49 @@ class Application extends BaseClient
     /**
      * @param array $parameters
      * @return string
+     * @throws ParameterException
      */
     public function buildTransaction(array $parameters)
     {
-        return $this->getRawMetadata($parameters);
+        $this->checkParameters($parameters, ["amount", "address", "nonce"]);
+        $amount = $parameters["amount"];
+        $amount = gmp_mul($amount, '1000000000000000000');
+        $amount = gmp_strval($amount, 16);
+        $amount = str_pad($amount, 64, '0', STR_PAD_LEFT);
+        $msg = Byte::initWithHex($parameters["address"])->getBinary() . Byte::initWithHex($amount)->getBinary() . Byte::init($parameters["nonce"])->getBinary();
+        return $msg;
+
     }
 
     /**
-     * @param Metadata $metadata
+     * @param array $parameters
+     * @param string $signature
      * @return mixed
+     * @throws ParameterException
      * @throws \Primas\Kernel\Exceptions\ErrorConfigException
      * @throws ClientException
      */
-    public function createPreLockTokens(Metadata $metadata)
+    public function createPreLockTokens(array $parameters, string $signature)
     {
         $account_id = $this->getAccountId();
-        $parameters = [
-            "transaction" => $metadata->toJson()
+        $this->checkParameters($parameters, ["amount", "nonce"]);
+        $data["amount"] = gmp_mul($parameters["amount"], '1000000000000000000');
+        $data["nonce"] = $parameters["nonce"];
+        $data["signature"] = $signature;
+        $transaction = Json::json_encode($data);
+        $post = [
+            "transaction" => $transaction
         ];
         $content_type = $this->getHttpOptions()["headers"]["Content-Type"];
         switch ($content_type) {
             case "application/json":
                 $data = [
-                    "body" => json_encode($parameters)
+                    "body" => json_encode($post)
                 ];
                 break;
             case "application/x-www-form-urlencoded":
                 $data = [
-                    "form_params" => $parameters
+                    "form_params" => $post
                 ];
                 break;
             case "multipart/form-data":
@@ -187,7 +206,7 @@ class Application extends BaseClient
                     "multipart" => [
                         [
                             "name" => "transaction",
-                            "contents" => $parameters["transaction"]
+                            "contents" => $post["transaction"]
                         ]
                     ]
                 ];

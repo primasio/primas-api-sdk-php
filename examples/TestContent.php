@@ -24,7 +24,7 @@ class TestContent extends TestBase {
 
     public function testCreateArticle($account_id){
         // create
-        $content="first developer test content!!!";
+        $content='<h1 data-v-13f76525="" class="article-title">2018年最值得关注学习的25个JavaScript开源项目</h1>';
         $parameters = [
             "version" => "1.0",
             "type" => "object",
@@ -37,7 +37,7 @@ class TestContent extends TestBase {
             "language" => "en-US",
             "category" => "test",
             "created" => time(),
-            //"content" => "first developer test content!!!",
+            "content" => $content,
             "content_hash" => \Primas\Kernel\Crypto\Keccak::hash($content),
             "status" => "created"
         ];
@@ -104,6 +104,9 @@ class TestContent extends TestBase {
 }
 
 $app = new TestContent();
-$account_id="32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3";
-var_dump($app->testCreateImage($account_id));
+$account_id="e89c51db3e8b1130944a1d98308ec101d0c01cce3407e2d3d5d71e7f19e5dea9";
+//var_dump($app->testCreateImage($account_id));
+
+var_dump($app->testCreateArticle($account_id));
+
 

@@ -81,15 +81,19 @@ $app->getPreLockTokenList(array $parameters = []);
 
 ```php
 
-// transaction
- $parameters = [
-     "amount"=>"32192233720368547758075548440005" ,   // Pre lock amount ,php not support bigint type use string replace
-     "nonce" => "1",  // User operator nonce id
-];
- $metadataJson = $app->buildTransaction($parameters);
- $sign = $appsign($metadataJson);
- $metadata = $app->setSignature($metadataJson, $sign);
- $data = $app->createPreLockTokens($metadata);
+  // your account address
+        $address = '0x2cbca948ef67f917ceadce8c685faf301bfe44cc';
+        $parameters = [
+            "amount"=> 120 ,                                      // Pre lock amount , type integer
+            // you can use package ramsey/uuid to generate
+            "nonce" => "e0926af4e73e496cb2c4d745389e9431",        //  the 32-bit uuid
+            "address" => $address,                                // user account address
+        ];
+        $metadataJson = $this->app->buildTransaction($parameters);
+        $sign = $this->app->sign($metadataJson);
+        // Prelocking is different from other interfaces
+        $data = $this->app->createPreLockTokens($parameters,$sign);
+        return $data;
 
 
 ```

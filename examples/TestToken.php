@@ -44,29 +44,44 @@ class TestToken extends TestBase
 
     public function testCreatePreLockTokens()
     {
+        // your account address
+        $address = '0x2cbca948ef67f917ceadce8c685faf301bfe44cc';
         $parameters = [
-            "amount"=>"32192233720368547758075548440005" ,   // Pre lock amount ,php not support bigint type use string replace
-            "nonce" => "1",  // User operator nonce id
+            "amount"=> 120 ,                                      // Pre lock amount , type integer
+            // you can use package ramsey/uuid to generate uuid
+            "nonce" => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+            "address" => $address,                                // user account address
         ];
         $metadataJson = $this->app->buildTransaction($parameters);
         $sign = $this->app->sign($metadataJson);
-        $metadata = $this->app->setSignature($metadataJson, $sign);
-        $data = $this->app->createPreLockTokens($metadata);
+        // Prelocking is different from other interfaces
+        $data = $this->app->createPreLockTokens($parameters,$sign);
         return $data;
+    }
+
+    public function testGetPreTokenList()
+    {
+        return $this->app->getPreLockTokenList();
     }
 
 }
 
 $node_id = "58f47077984e5daa4d2ea46f2e689177a1655c1321544e69f851530a789e9fd7";
 
-$account_id = "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3";
+$account_id = "e89c51db3e8b1130944a1d98308ec101d0c01cce3407e2d3d5d71e7f19e5dea9";
 $app = new TestToken($account_id);
+
+/*$testCreatePreLockTokens = $app->testCreatePreLockTokens();
+var_dump($testCreatePreLockTokens);*/
+
+/*$testGetPreTokenList = $app->testGetPreTokenList();
+var_dump($testGetPreTokenList);*/
+
 $testGetAccountTokenData = $app->testGetAccountTokenData();
 var_dump($testGetAccountTokenData);
 
-$testCreateIncentivesWithdrawal = $app->testCreateIncentivesWithdrawal($node_id);
+/*$testCreateIncentivesWithdrawal = $app->testCreateIncentivesWithdrawal($node_id);
 
 var_dump($testCreateIncentivesWithdrawal);
 
-$testCreatePreLockTokens = $app->testCreatePreLockTokens();
-var_dump($testCreatePreLockTokens);
+*/

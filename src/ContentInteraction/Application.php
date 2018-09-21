@@ -176,14 +176,14 @@ class Application extends BaseClient
     }
 
     /**
-     * @param string $comment_id
+     * @param string $share_id
      * @param array $parameters
      * @return mixed
      * @throws ClientException
      */
-    public function getCommentsOfGroupShare(string $comment_id, array $parameters = [])
+    public function getCommentsOfGroupShare(string $share_id, array $parameters = [])
     {
-        $data = $this->get("shares/$comment_id/comments?" . $this->buildQuery($parameters));
+        $data = $this->get("shares/$share_id/comments?" . $this->buildQuery($parameters));
 
         return Json::json_decode($data,true);
     }

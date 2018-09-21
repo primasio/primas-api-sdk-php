@@ -31,11 +31,17 @@ class Keystore
      */
     public static function init(string $data, string $passphrase)
     {
-        try {
-            $data = json_decode($data)->Crypto;
-        } catch (Exception $e) {
+
+        $json = json_decode($data);
+        if (property_exists($json, "Crypto")) {
+            $crypto = "Crypto";
+        } elseif (property_exists($json, "crypto")) {
+            $crypto = "crypto";
+        } else {
             throw new InvalidArgumentException('Argument is not a valid JSON string.');
         }
+        $data = $json->$crypto;
+
         switch ($data->kdf) {
             case 'pbkdf2':
                 $derivedKey = self::derivePbkdf2EncryptedKey(

@@ -47,10 +47,26 @@ trait MetadataTrait
      */
     protected function getRawMetadata(array $data, array $filters = []): string
     {
-        $metadata = $this->initField($this->removeFields(array_filter($data)), $filters);
+        $metadata = $this->initField($this->removeFields($this->filterEmptyValue($data)), $filters);
         $metadata = Arr::ksort($metadata);
         $metadataJson = Json::json_encode($metadata);
         return $metadataJson;
+    }
+
+    /**
+     * @param array $array
+     * @return array
+     */
+    protected function filterEmptyValue(array $array)
+    {
+        foreach ($array as $k => $v) {
+            if (!$v) {
+                unset($array[$k]);
+            } elseif (is_array($v)) {
+                $array[$k] = self::filterEmptyValue($array[$k]);
+            }
+        }
+        return $array;
     }
 
     /**
@@ -69,7 +85,7 @@ trait MetadataTrait
      * @param string $signature
      * @return Metadata
      */
-    public function setSignature(string $metadataJson, string $signature) : Metadata
+    public function setSignature(string $metadataJson, string $signature): Metadata
     {
         $metadata = Json::json_decode($metadataJson, true);
         $metadata["signature"] = $signature;
